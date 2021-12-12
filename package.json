@@ -1,0 +1,24 @@
+{
+  "name": "zenn-docs",
+  "description": "",
+  "version": "0.0.1",
+  "author": "nissy-dev <nd.12021218@gmail.com> (https://github.com/nissy-dev)",
+  "bugs": {
+    "url": "https://github.com/nissy-dev/zenn-docs/issues"
+  },
+  "homepage": "https://github.com/nissy-dev/zenn-docs",
+  "keywords": [],
+  "license": "MIT",
+  "main": "",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nissy-dev/zenn-docs.git"
+  },
+  "scripts": {
+    "test": "exit 1"
+  },
+  "devDependencies": {
+    "zenn-cli": "^0.1.99"
+  }
+}
