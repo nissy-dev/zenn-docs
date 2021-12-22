@@ -3,7 +3,7 @@ title: "標準化に向けて進んでいる Web Neural Network API について
 emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["Chrome", "Web", "機械学習"]
-published: false
+published: true
 ---
 
 今月、W3C に提出されていた Web Neural Network API (WebNN) が、Chromium で Intent to Prototype[^1]になりました。この記事では、WebNN が標準化されている目的、追加される API の詳細や今後の動向について調査してみました。
@@ -30,7 +30,7 @@ Neural Network モデルの推論は、豊富な計算資源にアクセスで�
 
 ブラウザで Neural Network モデルの推論を行うためのライブラリとしては、[TensorFlow.js](https://www.tensorflow.org/js) や [ONNX Runtime Web](https://onnxruntime.ai/) (ONNX.js) が有名です。どちらについても、**推論を行う際のバックエンド (数値計算を行うレイヤー) については、ブラウザが API として提供している `WASM` or `WebGL` / `WebGPU` が指定できます**。
 
-`WASM` は CPU での実行になるので、GPU を利用する `WebGL` / `WebGPU` のほうが推論が高速になることが多いです[^2]。**バックエンドの最適化は、デバイスごとに行う必要があり**、実際に最適化を行っている例は今年の JS Conf でも紹介されていました。
+`WASM` は CPU での実行になるので、GPU を利用する `WebGL` / `WebGPU` の推論のほうがが高速になることが多いです[^2]。**バックエンドの最適化は、デバイスごとに行う必要があり**、実際に最適化を行っている例は今年の JS Conf でも紹介されていました。
 
 https://jsconf.jp/2021/talk/case-study-of-production-development-of-a-client-side-ml-application-in-a-mobile-browser
 
@@ -138,12 +138,12 @@ WebNN は、Web machine learning という Working グループが 2 年前に�
 
 この記事では、WebNN が標準化されている目的、追加される API の詳細や今後の動向について紹介しました。現在、ブラウザで Neural Network モデルの推論を行うためのライブラリの選択肢は TensorFlow.js の 1 強という感じ[^9]ですが、WebNN が標準化されると多様なライブラリの開発が進み、ライブラリのエコシステムも活性化していくかもしれません。
 
-個人的には、PyTorch の動向も気になります。ブラウザやモバイルでのサポートについては、TensorFlow に比べだいぶ遅れをとっている印象でした。ところが、モバイルで簡単に機械学習でのデモを作成できることができる [PyTorch Live](https://pytorch.org/live/) というツールを今月発表し、ブラウザやモバイルでのサポートにも注力していくつもりなのかもしれません。特に、研究開発の分野では PyTorch のシェアは TensorFlow を大きく引き離しており[^10]、PyTorch と親和性の高いクライアントでの推論ツールの潜在的な需要も高いと予想できます。PyTorch は、現状 Model Loader API の標準化には何もアクションを示していないように見えますが、今後の動向に期待したいと思います。
+個人的には、PyTorch の動向も気になります。ブラウザやモバイルでのサポートについては、TensorFlow に比べだいぶ遅れをとっている印象でした。ところが、モバイルで簡単に機械学習を利用したデモアプリを作成できることができる [PyTorch Live](https://pytorch.org/live/) というツールを今月発表し、ブラウザやモバイルでのサポートにも注力していくつもりなのかもしれません。特に、研究開発の分野では PyTorch のシェアは TensorFlow を大きく引き離しており[^10]、PyTorch と親和性の高いクライアントでの推論ツールの需要も高いと予想できます。PyTorch は、現状 Model Loader API の標準化には何もアクションを示していないように見えますが、今後の動向に注目したいと思います。
 
 [^9]: [npm trends](https://www.npmtrends.com/@tensorflow/tfjs-vs-ml5-vs-onnxjs-vs-onnxruntime-web-vs-brain.js)も見てみましたが、想像以上に TensorFlow.js のシェアが高いです。
 [^10]: [深層学習に関する各学会でのフレームワークのシェア](http://horace.io/pytorch-vs-tensorflow/)
 
-## 参考文献
+## 参考にしたリンク
 
 - [Intent to Prototype: Web Neural Network API (WebNN)](https://groups.google.com/a/chromium.org/g/blink-dev/c/PD6TDMDS9mg/m/N3MrigMyCAAJ)
 - [Web Neural Network API Explained](https://github.com/webmachinelearning/webnn/blob/main/explainer.md)
