@@ -1,6 +1,6 @@
 ---
 title: "JavaのクラスからTypeScriptの型を生成するtypescript-generatorを使ってみた"
-emoji: "🔎"
+emoji: "🐧"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["Java", "TypeScript"]
 published: false

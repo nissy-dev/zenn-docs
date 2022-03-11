@@ -30,7 +30,7 @@ Neural Network モデルの推論は、豊富な計算資源にアクセスで�
 
 ブラウザで Neural Network モデルの推論を行うためのライブラリとしては、[TensorFlow.js](https://www.tensorflow.org/js) や [ONNX Runtime Web](https://onnxruntime.ai/) (ONNX.js) が有名です。どちらについても、**推論を行う際のバックエンド (数値計算を行うレイヤー) については、ブラウザが API として提供している `WASM` or `WebGL` / `WebGPU` が指定できます**。
 
-`WASM` は CPU での実行になるので、GPU を利用する `WebGL` / `WebGPU` の推論のほうがが高速になることが多いです[^2]。**バックエンドの最適化は、デバイスごとに行う必要があり**、実際に最適化を行っている例は今年の JS Conf でも紹介されていました。
+`WASM` は CPU での実行になるので、GPU を利用する `WebGL` / `WebGPU` の推論のほうが高速になることが多いです[^2]。**バックエンドの最適化は、デバイスごとに行う必要があり**、実際に最適化を行っている例は今年の JS Conf でも紹介されていました。
 
 https://jsconf.jp/2021/talk/case-study-of-production-development-of-a-client-side-ml-application-in-a-mobile-browser
 
