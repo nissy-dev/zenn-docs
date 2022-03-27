@@ -198,7 +198,7 @@ TransformationPhase の各 Phase で行っている型変換を把握するに�
 
 https://github.com/vojtechhabarta/typescript-generator/blob/c19d407fea52612e7b7cd20620059736aec9a6a9/typescript-generator-core/src/main/java/cz/habarta/typescript/generator/compiler/ModelCompiler.java#L118-L195
 
-今回の場合は、`optionalPropertiesDeclaration` の変換の後に、 デフォルト値が代入されているプロパティを non-nullable にするという処理を実装するので、`BeforeSymbolResolution` を指定しています。
+今回の場合は、`optionalPropertiesDeclaration` に関する変換の後に、 デフォルト値が代入されているプロパティを non-nullable にするという処理を実装するので、`BeforeSymbolResolution` を指定しています。
 
 ### 拡張のメインロジックの記述
 
@@ -207,34 +207,34 @@ https://github.com/vojtechhabarta/typescript-generator/blob/c19d407fea52612e7b7c
 以下のロジックでは、Reflection API を使ってプロパティの初期値を取得し、初期値が null でなければユニオン型から `null` を省くという処理を行っています。
 
 ```java
-  protected TsBeanModel transformBean(TsModelTransformer.Context context, TsBeanModel tsBean) {
-        try {
-            final BeanModel bean = context.getBeanModelOrigin(tsBean);
-            List<TsPropertyModel> properties = tsBean.getProperties().stream().map((TsPropertyModel tsProperty) -> {
-                try {
-                    final Class<?> originClass = bean.getOrigin();
-                    final Object instance = originClass.getConstructor().newInstance();
-                    final Field field = originClass.getDeclaredField(tsProperty.getName());
-                    field.setAccessible(true);
-                    // プロパティの初期値を取得し、nullではないか確認する
-                    if (field.get(instance) != null && tsProperty.tsType instanceof TsType.UnionType) {
-                        final TsType.UnionType unionType = (TsType.UnionType) tsProperty.tsType;
-                        // null を省いたユニオン型に修正する
-                        return tsProperty.withTsType(unionType.remove(Arrays.asList(TsType.Null)));
-                    }
-
-                    return tsProperty;
-                } catch (Exception e) {
-                    return tsProperty;
+protected TsBeanModel transformBean(TsModelTransformer.Context context, TsBeanModel tsBean) {
+    try {
+        final BeanModel bean = context.getBeanModelOrigin(tsBean);
+        List<TsPropertyModel> properties = tsBean.getProperties().stream().map((TsPropertyModel tsProperty) -> {
+            try {
+                final Class<?> originClass = bean.getOrigin();
+                final Object instance = originClass.getConstructor().newInstance();
+                final Field field = originClass.getDeclaredField(tsProperty.getName());
+                field.setAccessible(true);
+                // プロパティの初期値を取得し、nullではないか確認する
+                if (field.get(instance) != null && tsProperty.tsType instanceof TsType.UnionType) {
+                    final TsType.UnionType unionType = (TsType.UnionType) tsProperty.tsType;
+                    // null を省いたユニオン型に修正する
+                    return tsProperty.withTsType(unionType.remove(Arrays.asList(TsType.Null)));
                 }
-            }).collect(Collectors.toList());
-            return tsBean.withProperties(properties);
-        } catch (Exception e) {
-            TypeScriptGenerator.getLogger()
-                    .verbose(String.format("DefaultValueNonNullableExtension raised error: ", e.getMessage()));
-            return tsBean;
-        }
+
+                return tsProperty;
+            } catch (Exception e) {
+                return tsProperty;
+            }
+        }).collect(Collectors.toList());
+        return tsBean.withProperties(properties);
+    } catch (Exception e) {
+        TypeScriptGenerator.getLogger()
+                .verbose(String.format("DefaultValueNonNullableExtension raised error: ", e.getMessage()));
+        return tsBean;
     }
+}
 ```
 
 ### テスト
@@ -262,11 +262,11 @@ class ExtensionTest {
         final Settings settings = settings();
         settings.extensions.add(new DefaultValueNonNullableExtension());
         final String output = new TypeScriptGenerator(settings).generateTypeScript(Input.from(SampleClass.class));
+        // 出力に期待されている型定義が含まれているか確認する
         assertTrue(output.contains("text0: string | null;"));
         assertTrue(output.contains("text1: string;"));
     }
 
-    @Data
     public static class SampleClass {
         public String text0;
         public String text1 = "hello"
