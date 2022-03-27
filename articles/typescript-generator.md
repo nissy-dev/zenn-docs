@@ -8,7 +8,7 @@ published: false
 
 バックエンドを Java、フロントエンドを TypeScript で実装している場合、バックエンドとフロントエンド間のデータのやり取りを型で安全に行いたい場合があります。
 
-データのやり取りの方法には、REST API やテンプレートエンジンを利用して HTML に埋め込むなどの方法がありますが、**typescript-generator は どちらのケースにおいても対象のデータのクラスから TypeScript のインターフェイスを生成することができます。** 生成されたインターフェイスを利用することで、フロントエンドにおいても型を利用した安全な実装が可能になります。
+データのやり取りの方法には、API や HTML に JSON データを埋め込むなどの方法がありますが、**typescript-generator は どちらのケースにおいても対象のデータのクラスから TypeScript のインターフェイスを生成することができます。** 生成されたインターフェイスを利用することで、フロントエンドにおいても型を利用した安全な実装が可能になります。
 
 この記事では、typescript-generator の使い方や独自で拡張を実装する方法について紹介します。
 
@@ -82,12 +82,12 @@ http://www.habarta.cz/typescript-generator/maven/typescript-generator-maven-plug
 
 型変換を行う際の必須パラメーターは、`jsonLibrary` と `outputKind` の 2 つのみです。このため、手軽に試せるところもこのツールの良いところです。
 
-### `jsonLibrary`
+#### `jsonLibrary`
 
 - JSON のクラスを定義する際に利用しているライブラリを指定する
-- 指定できる値は `jackson`, `jaxb` `gson` など
+- 指定できる値は `jackson`, `jaxb`, `gson` など
 
-### `outputKind`
+#### `outputKind`
 
 - 出力する TypeScript ファイルの形式を制定する
 - `global`、`module`、`ambientModule` のいづれかが指定できる
@@ -95,64 +95,51 @@ http://www.habarta.cz/typescript-generator/maven/typescript-generator-maven-plug
   - `module` : トップレベルの `export` 宣言で出力する
   - `ambientModule` : `declare module "mod" { }` 形式で出力する
 
-### 生成する型に readonly を付与する
+### そのほかの便利なパラメータ
 
-バックエンドから取得したデータについては、フロントエンドでは基本的に参照のみがしたい場合が多いと思います。このような場合には、`declarePropertiesAsReadOnly` のパラメーターを設定するのが良いです。
+#### `outputFile`
 
-デフォルトでは `false` なので、自分が利用した際には以下の設定を加えました。
+- 生成される型定義ファイルのパスを設定する
+- `outputFileType` に対応した拡張子をつける必要がある
 
-```java
-generateTypeScript {
-    ...
-    declarePropertiesAsReadOnly = true
-}
-```
+#### `outputFileType`
 
-### Date の扱い方
+- 出力するファイルのフォーマットを指定する
+- `declarationFile` と `implementationFile` の２つが指定できる
+  - `declarationFile` : `*.d.ts` の形式で生成される (デフォルト)
+  - `implementationFile` : `*.ts` の形式で生成される
 
-Java のクラスでは、日付データに `org.joda.time.DateTime` などを利用することがあると思います。一方フロントエンドでは、基本的に JSON が対応している文字列や数値に変換された日付データを参照することになります。
+#### `excludeClasses`
 
-ツールを利用したプロジェクトでは、`joda` を使った日付データを文字列に変換していたので、以下の設定を加えました。`mapDate` は、`asString`以外にも `asNumber` などもサポートしています。
+- 型定義を生成したくないクラスを指定する
+- `java.lang.Comparable` などのプロパティを持たないインターフェイスの出力を無効にできる
 
-```java
-generateTypeScript {
-    ...
-    additionalDataLibraries = ['joda']
-    mapDate = 'asString'
-}
-```
+#### `declarePropertiesAsReadOnly`
 
-### Java が null 安全でないことへの対応
+- プロパティに `readonly` を付与する
+- デフォルトでは `false`
 
-ツールを使っていて一番悩んだ点が、Java が null 安全でないことに対する対応です。Lombok で定義された以下のようなクラスがあるとします。
+#### `additionalDataLibraries`
 
-```java
-import lombok.Data;
+- Java でよく利用されるライブラリのサポートをオプトインする
+- `guava`, `joda`, `vavr` のサポートを追加できる
 
-@Data
-public class Person {
-    public String name;
-    public int age;
-}
-```
+#### `mapDate`
 
-このとき、生成された `Person` インスタンスの各プロパティに値がセットされていない場合、プロパティには null が代入されたままとなります。**フロントエンドへ渡すデータにもこのような型では考慮できていない null が混入する可能性があり、型変換を行う際にはこの null をどう扱うかが問題になります。** 今回は、フロントエンドとバックエンド間のデータのやり取りでの不具合をなるべく減らしたかったことから、**null チェック やバリデーションに関するアノテーションがついているもの以外のすべてプロパティを nullable になるように変換しました**。
+- Java の Date に関する型をどのように変換するかを設定する
+- 指定できる値は `asDate`, `asString`, `asNumber` で、デフォルトは `asDate`
+- 日付データを JSON 化すると string などに変換することが多い
 
-この方針を設定に直すと以下のようになります。`optionalPropertiesDeclaration` は、`requiredAnnotations` で指定されたアノテーションがついてないすべてのプロパティを optional とするパラメーターです。optional の方法にはいくつかあるのですが、ここでは nullable になるように変換しています。
+#### `optionalPropertiesDeclaration` と `requiredAnnotations`
 
-```java
-generateTypeScript {
-    ...
-    optionalPropertiesDeclaration = 'nullableType'
-    requiredAnnotations = [
-      'lombok.NonNull',
-      'javax.validation.constraints.NotNull',
-      ....
-    ]
-}
-```
-
-この方針については、バックエンドとフロントエンド間のデータのやり取りが安全になる一方で、フロントエンドではプロパティが nullable ではないこと確認するバリデーションを実装する必要があります。このため、バリデーションを既存のコードに取り込むコストを考えながら、プロジェクトに合った設定を考えるのが良いと思います。
+- `optionalPropertiesDeclaration` は、`requiredAnnotations` で指定されたアノテーションが付与されていないすべてのプロパティを optional とする
+- optional の方法としては、以下の５つ方法が選択できる
+  - `questionMark`: `?` をプロパティに付与する
+  - `questionMarkAndNullableType`: `?` をプロパティに付与し、null とのユニオン型をアノテーションする
+  - `nullableType`: null とのユニオン型をアノテーションする
+  - `nullableAndUndefinableType`: null と undefined とのユニオン型をアノテーションする
+  - `undefinableType`: undefined とのユニオン型をアノテーションする
+- Java が null でないことを考慮しつつ、導入するプロジェクトに合わせて柔軟に設定できるとよい
 
 ## 独自で拡張を作成する方法
 
@@ -291,6 +278,6 @@ class ExtensionTest {
 
 この記事では、typescript-generator の使い方について、基本的なパラメーターの扱い方から独自で拡張を実装する方法まで幅広く紹介しました。バックエンドの Java のコードを読みながら手動で TypeScript の型定義を用意したり、バックエンドから受け取る値に TypeScript の any 型をアノテーションしている場合などには、typescript-generator を使ってみる価値があると思います。
 
-また、typescript-generator の各パラメーターについてもう少し詳しく知りたい方は、公式ドキュメントの他にも以下の記事が非常に参考になります。
+また、typescript-generator の各パラメーターについてもう少し詳しく知りたい方は、公式ドキュメントの他にも以下の記事も非常に参考になります。
 
 https://hepokon365.hatenablog.com/entry/2020/06/28/184615
