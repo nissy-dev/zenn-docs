@@ -139,7 +139,7 @@ http://www.habarta.cz/typescript-generator/maven/typescript-generator-maven-plug
   - `nullableType`: null とのユニオン型をアノテーションする
   - `nullableAndUndefinableType`: null と undefined とのユニオン型をアノテーションする
   - `undefinableType`: undefined とのユニオン型をアノテーションする
-- Java が null でないことを考慮しつつ、導入するプロジェクトに合わせて柔軟に設定できるとよい
+- Java が null 安全でないことを考慮しつつ、導入するプロジェクトに合わせて柔軟に設定できるとよい
 
 ## 独自で拡張を作成する方法
 
