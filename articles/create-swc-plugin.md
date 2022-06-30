@@ -3,7 +3,8 @@ title: "SWC plugin を作成して Next.js に導入してみた"
 emoji: "🐧"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["javascript", "babel", "nextjs", "swc"]
-published: false
+published: true
+published_at: 2022-07-01 09:00
 ---
 
 Next.js の v12.2.0 では、SWC plugin がサポートがされました 🎉
@@ -183,7 +184,7 @@ https://github.com/vercel/next.js/blob/canary/docs/advanced-features/compiler.md
 
 ## 最後に
 
-この記事では、SWC plugin の作成方法と Next.js への導入の仕方を紹介しました。細かい実装については、実際のリポジトリのコードを参考にしてもらえると嬉しいです。
+この記事では、SWC plugin の作成方法と Next.js への導入の仕方をざっくりと紹介しました。細かい実装については、実際のリポジトリのコードを参考にしてもらえると嬉しいです。
 
 ちなみに、 React Native for Web 周りだと react-native-reanimated の Babel plugin も SWC plugin に移行したいとの声が上がっています。
 
