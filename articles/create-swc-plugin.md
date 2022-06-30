@@ -191,6 +191,4 @@ https://github.com/software-mansion/react-native-reanimated/discussions/2586
 
 https://twitter.com/axeldelafosse/status/1493992830175481859
 
-約 800 行もある複雑な Babel plugin ですが、Babel plugin と Rust に慣れている方は是非挑戦してみると良いかもしれません！
-
-https://github.com/software-mansion/react-native-reanimated/blob/main/plugin.js
+[約 800 行もある複雑な Babel plugin](https://github.com/software-mansion/react-native-reanimated/blob/main/plugin.js) ですが、Babel plugin と Rust に慣れている方は是非挑戦してみると良いかもしれません！
