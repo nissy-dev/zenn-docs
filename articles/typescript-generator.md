@@ -3,7 +3,7 @@ title: "JavaのクラスからTypeScriptの型定義を生成するtypescript-ge
 emoji: "🐧"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["Java", "TypeScript"]
-published: false
+published: true
 ---
 
 バックエンドを Java、フロントエンドを TypeScript で実装している場合、バックエンドとフロントエンド間のデータのやり取りを型で安全に行いたい場合があります。
