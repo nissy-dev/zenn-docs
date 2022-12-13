@@ -58,7 +58,7 @@ if (someCondition) {
 }
 ```
 
-モジュールの依存グラフの静的解析を行う Tree shaking では、このようなランタイムでの評価が必要な動的なモジュールの依存関係を扱うことが困難です。このため、CJS で読み込まれているモジュールは基本的に全てバンドルされてしまいます。[^3]
+静的解析を行う tree shaking では、このようなランタイムでの評価が必要な動的なモジュールの依存関係を扱うことが困難です。このため、CJS で読み込まれているモジュールは基本的に全てバンドルされてしまいます。[^3]
 
 [^3]: [こちらの記事](https://www.kabuku.co.jp/developers/tree-shaking-in-2018)によると、CJS の tree shaking に対応するバンドラーとして [Parcel](https://parceljs.org/) があるようです。
 
@@ -91,7 +91,7 @@ console.log(moduleA); // トップレベルで実行される
 このバンドラーによる副作用の有無の判定を助けるために、ライブラリの作成時には次の 2 つ対応を行ったほうがよいです。
 
 - package.json の `sideEffects` フィールドに `false` 指定する
-- トップレベルで実行するコードに `/*#__PURE__*/` コメント挿入する
+- トップレベルで実行するコードに `/*#__PURE__*/` コメントを挿入する
 
 #### package.json の sideEffects フィールドに false 指定する
 
@@ -116,7 +116,7 @@ package.json の `sideEffects`フィールドは、副作用のあるコード�
 export const someContext = React.crateContext(null);
 ```
 
-このようなコードについては、次のように `/*#__PURE__*/` コメントを挿入することで、tree shaking が正しくされるようになります。
+このようなコードについては、次のように `/*#__PURE__*/` コメントを挿入することで tree shaking が正しくされるようになります。
 
 ```js
 export const someContext /*#__PURE__*/ = React.crateContext(null);
@@ -138,11 +138,5 @@ https://github.com/hashicorp/nextjs-bundle-analysis
 
 ということ本ブログの内容は以上になります！良いライブラリ生活を！
 
-## 参考文献
-
-- https://medium.com/@rjayakumarreddy887/create-a-ui-component-library-that-is-tree-shakable-cffbbc4d1829
-- https://github.com/styled-components/babel-plugin-styled-components/issues/245
-- https://github.com/Rich-Harris/agadoo
-- https://www.youtube.com/watch?v=qtuFoyY0tyw
 - ["module"フィールド対応](https://dwango-js.github.io/performance-handbook/startup/module-field/)
 - [パッケージは Bundle を配布しない](https://dwango-js.github.io/performance-handbook/startup/reduce-bundle/)
