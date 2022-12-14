@@ -16,7 +16,7 @@ https://blog.theodo.com/2021/04/library-tree-shaking/
 
 # 作成方法のまとめ
 
-結論から知りたい人向けに、まずは対応方法のまとめから記述します。バンドルサイズに優しい tree shakeable な JavaScript ライブラリを作成するためには、次の点に気をつけると良いです。
+結論から知りたい人向けに、まずは作成方法のまとめから記述します。バンドルサイズに優しい tree shakeable な JavaScript ライブラリを作成するためには、次の点に気をつけると良いです。
 
 - ESM 形式でライブラリを配布し、package.json の `module` フィールドを指定する
 - ライブラリで使用する npm パッケージも可能な限り tree shakeable なものを利用する
@@ -78,24 +78,21 @@ if (someCondition) {
 
 ライブラリを配布する際には、1 つのファイルにバンドルすることも多いと思います。しかし、tree shaking のことを考えると、次のようなデメリットがあります。
 
-- もともとのモジュールツリーの情報が失われ、静的解析のときに不利になる
-- バンドル後のライブラリ内の依存関係の詳細な解析が難しい
+- モジュールツリーの情報が失われ、依存関係の静的解析に不利な影響を与える
+- ライブラリ内のモジュール単位での依存関係の解析が難しい
 
-ブログ内では、静的解析のときに不利になる事によって、CJS の npm パッケージを読み込んだ場合や code splitting を行う場合に効果的に tree shaking がされない例が紹介されています。[^4]
+静的解析に不利な影響を与える例として、ブログでは CJS 形式の npm パッケージを読み込んだ場合や code splitting を行う場合に、tree shaking が効果的に行われないケースが紹介されています。[^4]
 
-[^4]: 実際のサンプルコードを webpack や rollup を利用してビルドしながらの解説があるので、ぜひそちらを参考にしていただければと思います。
+[^4]: サンプルコードや依存ツリーの図を用いながらの丁寧な解説となっており、気になる人は「Preserve the library's module tree and ...」のタイトルで始まる章を読んでみることをおすすめします。
 
-それぞれの現象については、本記事の参考にしている 「」の「」章で具体的なコードを実行しながら解説しています。
+モジュール単位での依存関係の解析が難しい例としては、バンドルの有無で依存関係の可視化の結果を比較するとわかりやすいです。Vite を利用している場合は [rollup-plugin-analyzer](https://github.com/doesdev/rollup-plugin-analyzer) などの可視化ツールがありますが、このような可視化ツールを使った場合における比較を次に示します。
 
-また、ビルドした JS の依存関係を可視化する場合にも、Vite だと [rollup-plugin-analyzer](https://github.com/doesdev/rollup-plugin-analyzer) などの結果を解析する際も、１つのファイルに
+![](/images/how-to-make-tree-shakeable-libraries/bundle-analyzer-result-compare.png =600x)
+_バンドルの有無で依存関係の可視化の結果を比較_
 
-１つのファイルにバンドルされている場合は、次のようになります。
+この時、バンドルしているとライブラリ内のモジュール単位での解析ができないことがわかると思います。**このように、モジュールツリーの構造を保持したまま配布することで、ライブラリ内のモジュール単位での読み込みの有無が明確になり、バンドルサイズの解析も容易になります。**
 
-一方で、１つのファイルにバンドルしない場合は、次のようになります。
-
-こちらの方が、ライブラリ内のモジュールの読み込みの有無が明確になり、バンドルサイズの解析もやりやすいです。
-
-Vite を使っている場合には、rollup の [preserveModules オプション](https://rollupjs.org/guide/en/#outputpreservemodules) を利用することで、もともとのモジュールツリーの構造を保持したまま配布することができます。[ディスカッションに投稿されている内容](https://github.com/vitejs/vite/discussions/8098)を参考にした実際の設定は次のようになります。
+Vite を使っている場合には、rollup の [preserveModules オプション](https://rollupjs.org/guide/en/#outputpreservemodules) を利用することで、モジュールツリーの構造を保持したまま配布することができます。[ディスカッションに投稿されている内容](https://github.com/vitejs/vite/discussions/8098)を参考にした実際の設定は次のようになります。
 
 ```js
 import { defineConfig } from "vite";
@@ -166,7 +163,7 @@ export const someContext = React.crateContext(null);
 export const someContext /*#__PURE__*/ = React.crateContext(null);
 ```
 
-実際に [react-redux](https://github.com/reduxjs/react-redux) などのライブラリでもこのような対応がされています。
+[react-redux](https://github.com/reduxjs/react-redux) などのライブラリでも、実際にこのような対応がされています。
 
 https://github.com/reduxjs/react-redux/blob/8d03182d36abe91cb0cc883478f3b0c2d7f9e17f/src/components/Context.ts#L14-L15
 
@@ -174,7 +171,9 @@ https://github.com/reduxjs/react-redux/blob/8d03182d36abe91cb0cc883478f3b0c2d7f9
 
 # まとめ
 
-この記事では、バンドルサイズに優しい tree shakeable な JavaScript ライブラリの作成方法について紹介しました。最近だと、デザインシステムの重要性が高まって来たり、monorepo 開発のツールも多く登場している事もあって、社内で JavaScript ライブラリを開発することも多いと思います。開発しているライブラリのバンドルサイズが気になっていて、tree shaking について右も左もわからないと感じている方の参考になれば幸いです。
+この記事では、バンドルサイズに優しい tree shakeable な JavaScript ライブラリの作成方法について紹介しました。最近だと、デザインシステムの重要性が高まって来たり、monorepo 開発のツールも多く登場している事もあって、社内で JavaScript ライブラリを開発することも多いと思います。開発しているライブラリのバンドルサイズが気になっていて、tree shaking について右も左もわからないと感じている方の参考になれば幸いです。Tree shaking によらない JavaScript ライブラリ作成の際の Tips については、次のリポジトリも参考になります。
+
+https://github.com/frehner/modern-guide-to-packaging-js-library
 
 また社内ライブラリを使う際には、JS のバンドルサイズなどのパフォーマンスに関するメトリクスを定期的に計測をすることが重要です。バンドルサイズについては、Next.js の場合にはなりますが、PR ごとにバンドルサイズを評価してくれるアクションがあるのでおすすめです。
 
