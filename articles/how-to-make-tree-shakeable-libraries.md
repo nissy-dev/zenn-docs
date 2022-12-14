@@ -2,7 +2,7 @@
 title: "バンドルサイズに優しい tree shakeable なライブラリを作成する"
 emoji: "🌲"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["javascript", "typescript", "performance", "react"]
+topics: ["javascript", "typescript", "performance"]
 published: false
 ---
 
@@ -16,7 +16,7 @@ https://blog.theodo.com/2021/04/library-tree-shaking/
 
 # 作成方法のまとめ
 
-結論から知りたい人むけに、まずは対応方法のまとめから記述します。バンドルサイズに優しい tree shakeable な JavaScript ライブラリを作成するためには、次の点に気をつけると良いと思います。
+結論から知りたい人向けに、まずは対応方法のまとめから記述します。バンドルサイズに優しい tree shakeable な JavaScript ライブラリを作成するためには、次の点に気をつけると良いです。
 
 - ESM 形式でライブラリを配布し、package.json の `module` フィールドを指定する
 - ライブラリで使用する npm パッケージも可能な限り tree shakeable なものを利用する
@@ -78,10 +78,12 @@ if (someCondition) {
 
 ライブラリを配布する際には、1 つのファイルにバンドルすることも多いと思います。しかし、tree shaking のことを考えると、次のようなデメリットがあります。
 
-- モジュールの階層構造の情報が失われ、tree shaking が正しく行われない可能性が高くなる
-  - CJS 形式のパッケージを読み込んでいる場合に tree shaking がされなくなる
-  - Code Splitting が行われる際に、tree shaking が効果的に行われなくなる
-- １つのエントリーにまとめられており、バンドル後のライブラリ内の詳細な依存関係の解析が難しい
+- もともとのモジュールツリーの情報が失われ、静的解析のときに不利になる
+- バンドル後のライブラリ内の依存関係の詳細な解析が難しい
+
+ブログ内では、静的解析のときに不利になる事によって、CJS の npm パッケージを読み込んだ場合や code splitting を行う場合に効果的に tree shaking がされない例が紹介されています。[^4]
+
+[^4]: 実際のサンプルコードを webpack や rollup を利用してビルドしながらの解説があるので、ぜひそちらを参考にしていただければと思います。
 
 それぞれの現象については、本記事の参考にしている 「」の「」章で具体的なコードを実行しながら解説しています。
 
@@ -93,10 +95,27 @@ if (someCondition) {
 
 こちらの方が、ライブラリ内のモジュールの読み込みの有無が明確になり、バンドルサイズの解析もやりやすいです。
 
-Vite を使っている場合には、[ディスカッションに投稿されている設定](https://github.com/vitejs/vite/discussions/8098)を参考にすることで、モジュールツリーの構造を保持したまま配布することができます。
+Vite を使っている場合には、rollup の [preserveModules オプション](https://rollupjs.org/guide/en/#outputpreservemodules) を利用することで、もともとのモジュールツリーの構造を保持したまま配布することができます。[ディスカッションに投稿されている内容](https://github.com/vitejs/vite/discussions/8098)を参考にした実際の設定は次のようになります。
 
 ```js
+import { defineConfig } from "vite";
 
+export default defineConfig({
+  build: {
+    ...,
+    rollupOptions: {
+      ...
+      output: {
+        preserveModules: true,
+        preserveModulesRoot: "src",
+        entryFileNames: ({ name: fileName }) => {
+          return `${fileName}.js`;
+        },
+      },
+    },
+  },
+  ...
+});
 ```
 
 # ライブラリに含まれる副作用の可能性を削減する
@@ -113,7 +132,7 @@ export const moduleA = "moduleA";
 console.log(moduleA); // トップレベルで実行される
 ```
 
-バンドラーになるべく正確に副作用の解析を行ってもらうために、ライブラリを作成する際には次の 2 つ対応を行う必要があります。
+なるべく正確に副作用の解析を行ってもらうために、ライブラリを作成する際には次の 2 つ対応を行う必要があります。
 
 - package.json の `sideEffects` フィールドに `false` 指定する
 - トップレベルで実行するコードに `/*#__PURE__*/` コメントを挿入する
