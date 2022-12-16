@@ -60,7 +60,7 @@ Vite が利用している rollup や webpack などの主要なバンドラー�
 
 <!-- TODO: details にするかどうか考える -->
 
-CJS 形式で tree shaking が行われない理由としては、CJS で広く使われている `require` と `module.exports` が動的であるためです。`require` は、次のような条件式の中で呼び出すことが可能です。
+CJS 形式で配布する場合に tree shaking が行われない理由としては、CJS で広く使われている `require` と `module.exports` が動的であるためです。`require` は、次のような条件式の中で呼び出すことが可能です。
 
 ```js
 if (someCondition) {
@@ -91,7 +91,7 @@ if (someCondition) {
 ![](/images/how-to-make-tree-shakeable-libraries/bundle-analyzer-result-compare.png =600x)
 _バンドルの有無で依存関係の可視化の結果を比較_
 
-この時、バンドルしているとライブラリ内のモジュール単位での解析ができないことがわかると思います。**このように、モジュールツリーの構造を保持したまま配布することで、ライブラリ内のモジュール単位での読み込みの有無が明確になり、バンドルサイズの解析も容易になります。**
+この時、バンドルしているとライブラリ内のモジュール単位での解析ができないことがわかると思います。**このように、モジュールツリーの構造を保持したまま配布することで、ライブラリ内のモジュール単位での依存の有無が明確になり、バンドルサイズの解析も容易になります。**
 
 Vite を使っている場合には、rollup の [preserveModules オプション](https://rollupjs.org/guide/en/#outputpreservemodules) を利用することで、モジュールツリーの構造を保持したまま配布することができます。[ディスカッションに投稿されている内容](https://github.com/vitejs/vite/discussions/8098)を参考にした実際の設定は次のようになります。
 
@@ -172,12 +172,8 @@ https://github.com/reduxjs/react-redux/blob/8d03182d36abe91cb0cc883478f3b0c2d7f9
 
 # まとめ
 
-この記事では、バンドルサイズに優しい tree shakeable な JavaScript ライブラリの作成方法について紹介しました。最近だと、デザインシステムの重要性が高まって来たり、monorepo 開発のツールも多く登場している事もあって、社内で JavaScript ライブラリを開発することも多いと思います。開発しているライブラリのバンドルサイズが気になっていて、tree shaking について右も左もわからないと感じている方の参考になれば幸いです。JavaScript ライブラリ作成の際のより一般的な Tips については、次のリポジトリも参考になります。
+この記事では、バンドルサイズに優しい tree shakeable な JavaScript ライブラリの作成方法について紹介しました。最近だと、デザインシステムの重要性が高まって来たり、monorepo 開発のツールも多く登場している事もあって、社内で JavaScript ライブラリを開発することも多いと思います。開発しているライブラリのバンドルサイズが気になっていて、tree shaking について右も左もわからないと感じている方の参考になれば幸いです。
+
+最後になりますが、JavaScript ライブラリを作成するの際のより一般的な Tips については、次のリポジトリも参考になります。良いライブラリ生活を！
 
 https://github.com/frehner/modern-guide-to-packaging-js-library
-
-また社内ライブラリを使う際には、JS のバンドルサイズなどのパフォーマンスに関するメトリクスを定期的に計測をすることが重要です。バンドルサイズについては、Next.js の場合にはなりますが、PR ごとにバンドルサイズを評価してくれるアクションがあるのでおすすめです。
-
-https://github.com/hashicorp/nextjs-bundle-analysis
-
-ということ本ブログの内容は以上になります！良いライブラリ生活を！
