@@ -2,8 +2,9 @@
 title: "バンドルサイズに優しい tree shakeable なライブラリを作成する"
 emoji: "🌲"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["javascript", "typescript", "performance"]
-published: false
+topics: ["javascript", "typescript", "performance", "npm"]
+published: true
+published_at: 2022-12-17 09:00
 ---
 
 :::message
