@@ -47,7 +47,7 @@ Tree shakeable なライブラリを作成をするためにやることは、�
 
 **また、CJS と ESM などの複数のモジュール形式でパッケージを配布する場合には、次のように package.json の `module` フィールドに ESM 形式でビルドされた成果物へのパスを設定する必要もあります。**[^2]
 
-[^2]: 複数のモジュール形式で配布を行う場合の package.json の設定は、[こちらの記事](https://trap.jp/post/1666/)にもある通り歴史的経緯から難しいケースが多いので、[Packemon](https://packemon.dev/) などのツールを検討してもよいかもしれないです。
+[^2]: 複数のモジュール形式で配布を行う場合の package.json の設定は、[こちらの記事](https://trap.jp/post/1666/)にもある通り歴史的経緯から難しいケースが多いので、[publint](publint) や [Packemon](https://packemon.dev/) などのツールを検討してもよいかもしれないです。
 
 ```json
 {
@@ -69,9 +69,9 @@ if (someCondition) {
 }
 ```
 
-静的解析を行う tree shaking では、このようなランタイムでの評価が必要な動的なモジュールの依存関係を扱うことが困難です。このため、CJS で読み込まれているモジュールは基本的に全てバンドルされてしまいます。[^3]
+静的解析を行う tree shaking では、このようなランタイムでの評価が必要な動的なモジュールの依存関係を扱うことが困難です。このため、CJS 形式で読み込まれているモジュールは基本的に全てバンドルされてしまいます。[^3]
 
-[^3]: [こちらの記事](https://www.kabuku.co.jp/developers/tree-shaking-in-2018)によると、CJS の tree shaking に対応するバンドラーとして [Parcel](https://parceljs.org/) があるようです。
+[^3]: [こちらの記事](https://www.kabuku.co.jp/developers/tree-shaking-in-2018)によると、CJS 形式のコード の tree shaking に対応するバンドラーとして [Parcel](https://parceljs.org/) があるようです。
 
 このことをふまえると、作成するライブラリも ESM 形式で配布されている npm パッケージに依存するのが望ましいです。**[bundlephobia](https://bundlephobia.com/) などを利用して、利用するパッケージが tree shakeable かどうかを確認するのがおすすめです。**
 
@@ -174,6 +174,6 @@ https://github.com/reduxjs/react-redux/blob/8d03182d36abe91cb0cc883478f3b0c2d7f9
 
 この記事では、バンドルサイズに優しい tree shakeable な JavaScript ライブラリの作成方法について紹介しました。最近だと、デザインシステムの重要性が高まって来たり、monorepo 開発のツールも多く登場している事もあって、社内で JavaScript ライブラリを開発することも多いと思います。開発しているライブラリのバンドルサイズが気になっていて、tree shaking について右も左もわからないと感じている方の参考になれば幸いです。
 
-最後になりますが、JavaScript ライブラリを作成するの際のより一般的な Tips については、次のリポジトリも参考になります。良いライブラリ生活を！
+最後になりますが、JavaScript ライブラリを作成する際のより一般的な Tips については、次のリポジトリも参考になります。良いライブラリ生活を！
 
 https://github.com/frehner/modern-guide-to-packaging-js-library
