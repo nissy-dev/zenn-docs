@@ -47,7 +47,7 @@ Tree shakeable なライブラリを作成をするためにやることは、�
 
 **また、CJS と ESM などの複数のモジュール形式でパッケージを配布する場合には、次のように package.json の `module` フィールドに ESM 形式でビルドされた成果物へのパスを設定する必要もあります。**[^2]
 
-[^2]: 複数のモジュール形式で配布を行う場合の package.json の設定は、[こちらの記事](https://trap.jp/post/1666/)にもある通り歴史的経緯から難しいケースが多いので、[publint](publint) や [Packemon](https://packemon.dev/) などのツールを検討してもよいかもしれないです。
+[^2]: 複数のモジュール形式で配布を行う場合の package.json の設定は、[こちらの記事](https://trap.jp/post/1666/)にもある通り歴史的経緯から難しいケースが多いので、[publint](https://github.com/bluwy/publint) や [Packemon](https://packemon.dev/) などのツールを検討してもよいかもしれないです。
 
 ```json
 {
