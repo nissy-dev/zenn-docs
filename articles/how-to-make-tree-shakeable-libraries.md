@@ -161,7 +161,7 @@ export const someContext = React.crateContext(null);
 **このようなコードについては、次のように `/*#__PURE__*/` コメントを挿入します。これによって、バンドラーに文 (statement) 単位での副作用がないことを明示できます。**
 
 ```js
-export const someContext /*#__PURE__*/ = React.crateContext(null);
+export const someContext = /*#__PURE__*/ React.crateContext(null);
 ```
 
 [react-redux](https://github.com/reduxjs/react-redux) などのライブラリでも、実際にこのような対応がされています。
