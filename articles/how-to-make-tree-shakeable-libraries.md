@@ -15,7 +15,7 @@ published_at: 2022-12-17 09:00
 
 https://blog.theodo.com/2021/04/library-tree-shaking/
 
-# 作成方法のまとめ
+## 作成方法のまとめ
 
 結論から知りたい人向けに、まずは作成方法のまとめから記述します。バンドルサイズに優しい tree shakeable な JavaScript ライブラリを作成するためには、次の点に気をつけると良いです。
 
@@ -25,13 +25,13 @@ https://blog.theodo.com/2021/04/library-tree-shaking/
 - package.json の `sideEffects` フィールドに `false` 指定する
 - トップレベルで実行するコードに `/*#__PURE__*/` コメントを挿入する
 
-# Tree shaking とは？
+## Tree shaking とは？
 
 Tree shaking とは、モジュールの依存関係を静的に解析して、副作用のない不要なコードを削除する機能のことです。[^1] 昨今のモジュールバンドラーのほとんどは、tree shaking の機能をサポートしています。また、すでに本文では tree shakeable という単語が出てきていますが、「tree shakeable = tree shaking が行われる」くらいの意味で理解してもらえればと思います。
 
 [^1]: 広義な意味では、dead code elimination と同じように感じるのですが、あえて異なる名前にしている理由については [Rich Harris さんがブログを書いて説明していました](https://medium.com/@Rich_Harris/tree-shaking-versus-dead-code-elimination-d3765df85c80)。
 
-# Tree shakeable なライブラリ作成でやること
+## Tree shakeable なライブラリ作成でやること
 
 Tree shakeable なライブラリを作成をするためにやることは、次の 3 点になります。
 
@@ -41,7 +41,7 @@ Tree shakeable なライブラリを作成をするためにやることは、�
 
 今回は、[Vite のライブラリモード](https://vitejs.dev/guide/build.html#library-mode)を利用した場合にフォーカスしながら、各対応について紹介したいと思います。他のビルドツールを利用している場合は、適宜設定などは読み替えて貰えればと思います。
 
-# ESM 形式でライブラリを配布する
+## ESM 形式でライブラリを配布する
 
 ライブラリを配布する際のモジュール形式としては、主に Universal Module Definition (UMD) 形式、CommonJS (CJS) 形式、ESM 形式などがあります。**Tree shaking が正しく行われるためには、ライブラリを ESM 形式で配布することが必要です。** Vite を使っている場合は、[build.lib](https://vitejs.dev/config/build-options.html#build-lib) の target の値を `es` にすることで、ビルド成果物が ESM 形式になります。
 
@@ -75,7 +75,7 @@ if (someCondition) {
 
 このことをふまえると、作成するライブラリも ESM 形式で配布されている npm パッケージに依存するのが望ましいです。**[bundlephobia](https://bundlephobia.com/) などを利用して、利用するパッケージが tree shakeable かどうかを確認するのがおすすめです。**
 
-# モジュールツリーの構造を保持したまま配布する
+## モジュールツリーの構造を保持したまま配布する
 
 ライブラリを配布する際には、1 つのファイルにバンドルすることも多いと思います。しかし、tree shaking のことを考えると、次のようなデメリットがあります。
 
@@ -116,7 +116,7 @@ export default defineConfig({
 });
 ```
 
-# ライブラリに含まれる副作用の可能性を削減する
+## ライブラリに含まれる副作用の可能性を削減する
 
 Tree shaking で正しく不要なコードが削除されるためには、削除対象のコードに副作用があるかどうかの判定が重要になります。副作用とは、[webpack での定義](https://webpack.js.org/guides/tree-shaking/#mark-the-file-as-side-effect-free)を引用すると次のようになります。
 
@@ -135,7 +135,7 @@ console.log(moduleA); // トップレベルで実行される
 - package.json の `sideEffects` フィールドに `false` 指定する
 - トップレベルで実行するコードに `/*#__PURE__*/` コメントを挿入する
 
-## package.json の `sideEffects` フィールドに `false` 指定する
+### package.json の `sideEffects` フィールドに `false` 指定する
 
 バンドラーは、ライブラリ内の副作用を解析する際に、package.json の `sideEffects` フィールドを解釈します。この値を設定しないと、バンドラーはライブラリ内のモジュールについて常に副作用を持つ可能性があるとして解析を行います。
 
@@ -150,7 +150,7 @@ console.log(moduleA); // トップレベルで実行される
 
 もし、ライブラリ内に副作用のあるコードを含む場合は、配列でファイル名を列挙します。列挙の仕方などは、[webpack のドキュメント](https://webpack.js.org/guides/tree-shaking/#mark-the-file-as-side-effect-free)が参考になります。
 
-## トップレベルで実行するコードに `/*#__PURE__*/` コメントを挿入する
+### トップレベルで実行するコードに `/*#__PURE__*/` コメントを挿入する
 
 トップレベルで実行されるコードは副作用をもつと判断されますが、実際に tree shaking されても問題無いコードもあると思います。社内のライブラリでも、次のようなコードが原因で tree shaking されてほしいコードがバンドルされてしまうケースがありました。
 
@@ -170,7 +170,7 @@ https://github.com/reduxjs/react-redux/blob/8d03182d36abe91cb0cc883478f3b0c2d7f9
 
 このコメントについては、バンドラー内部で利用している minifier ([terser](https://github.com/terser/terser) など) が解釈し、副作用がないことを理解しています。
 
-# まとめ
+## まとめ
 
 この記事では、バンドルサイズに優しい tree shakeable な JavaScript ライブラリの作成方法について紹介しました。最近だと、デザインシステムの重要性が高まって来たり、monorepo 開発のツールも多く登場している事もあって、JavaScript ライブラリを開発することも多いと思います。開発しているライブラリのバンドルサイズが気になっていて、tree shaking について右も左もわからないと感じている方の参考になれば幸いです。
 
