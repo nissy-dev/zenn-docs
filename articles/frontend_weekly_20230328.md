@@ -50,7 +50,7 @@ https://twitter.com/reactjs/status/1636441676506906626?s=20
 
 https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023
 
-2023 年 3 月時点における React 内部で活発に研究や開発が行われているプロジェクトの紹介です。Next.js に導入された React Server Component をはじめとして、Asset Loading や Document Metadata の改善、React Conf 2021 で紹介された React Forget の続報などについて報告しています。
+2023 年 3 月時点における React 内部で活発に研究や開発が行われているプロジェクトの紹介です。Next.js に導入された React Server Components をはじめとして、Asset Loading や Document Metadata の改善、React Conf 2021 で紹介された React Forget の続報などについて報告しています。
 
 ## Announcing the ESLint Community GitHub organization
 
@@ -98,7 +98,7 @@ https://web.dev/6-css-snippets-every-front-end-developer-should-know-in-2023/
 
 https://github.com/whatwg/html/pull/7320
 
-HTML Standard に `<search>` 要素が追加されました。フォームコントロールなどの検索やフィルタリングに関連するコンテンツを含むドキュメントの一部を表す要素となっており、`<div role="search">` を置き換えることが想定されています。
+WAI-ARIA のランドマークロールに対応する `<search>` 要素が HTML Standard に 追加されました。検索やフィルタリングに関連するセクションに対して、`<search>`要素を使用してセマンティックにマークアップすることができるようになりました。
 
 # あとがき
 
