@@ -80,7 +80,7 @@ Emanuele さんは、「Rome Tools, Inc をやめた後もコントリビュー�
 
 JavaScript の開発に必要なツールチェーンが増え続けている課題感にはすごい共感しているので、Rome に限らずできる限りその問題を解消するような活動には今後も貢献していきたいと思います。また、Rome にコントリビューションすることで、JavaScript だけではなく CSS や HTML のパーサーも実装している SWC は本当にすごいと再認識しました。いろんなツールが SWC に依存していく一方でコントリビューターが増えていないので、自分にも何かできることがないかなあと思ったりしています。
 
-あとは、最近の勢いのある OSS は Twitter などでうまくいろんな人を巻き込んでいるなと感じます。ブログを投稿する直前に、Rust で Python の linter や formatter を書き換えている Ruff が資金調達したニュースを見ました。Ruff の作者も非常に Twitter でアクティブに活動し、開発メンバーは少ないものの多くの人の意見などを取り入れてプロジェクトを進めているように見えました。
+あとは、最近の勢いのある OSS は Twitter などでうまくいろんな人を巻き込んでいるなと感じます。ブログを投稿する直前に、Rust で Python の linter や formatter を書き換えている Ruff が資金調達したニュースを見ました。[Ruff の作者](https://twitter.com/charliermarsh)も非常に Twitter でアクティブに活動し、開発メンバーは少ないものの多くの人の意見などを取り入れてプロジェクトを進めているように見えました。
 
 https://astral.sh/blog/announcing-astral-the-company-behind-ruff
 
