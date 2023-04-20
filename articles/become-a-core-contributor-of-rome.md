@@ -3,7 +3,7 @@ title: "Rome の core contributor になった"
 emoji: "🛣️"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["JavaScript", "lint", "formatter"]
-published: false
+published: true
 ---
 
 ちょっと時間が経ってしまったのですが Rome の core contributor になったので、なるまでの振り返りと現在の Rome の状況について少し書きたいと思います。
