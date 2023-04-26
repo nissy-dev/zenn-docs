@@ -21,7 +21,7 @@ publication_name: "cybozu_frontend"
 
 https://github.com/w3c/csswg-drafts/issues/5629
 
-`@sheet` という記法を使って、CSS ファイル内に複数の stylesheet を定義する提案。2020 年に作成されたこちらの提案が、3 週間ほど前に CSS の Working Group に受け入れられたようです。
+`@sheet` という記法を使って、CSS ファイル内に複数の stylesheet を定義する提案です。2020 年に作成されたこちらの提案が、3 週間ほど前に CSS の Working Group に受け入れられたようです。
 
 ## Announcing Vite 4.3
 
@@ -35,13 +35,13 @@ Vite 4.3 がリリースされました。パフォーマンスが大きく改�
 
 https://remix.run/docs/en/1.15.0/pages/v2
 
-Remix の v2 リリースに関するドキュメントです。File System Routing において、ディレクトリ構造を使うのをやめてフラット化することを予定している点が話題になりました。
+Remix の v2 リリースに関するドキュメントです。File System Routing において、ディレクトリ構造を使うのをやめてフラット化する点が話題になりました。
 
 ## It's time to learn oklch color
 
 https://keithjgrant.com/posts/2023/04/its-time-to-learn-oklch-color/
 
-CSS で色を指定する関数の 1 つである `oklch()` の紹介記事です。 従来の `hsl()` と比較して、より人間の感覚に沿った色を指定できたり、指定できる色に制限がないことなどのメリットがあるようです。
+CSS で色を指定する関数の 1 つである `oklch()` の紹介記事です。 従来の `hsl()` と比較して、より人間の感覚に沿った色を指定できたり、指定できる色に制限がないなどのメリットがあるようです。
 
 ## Shipping the biggest update for the components.
 
@@ -63,7 +63,7 @@ Firefox 112 - 113 の Nightly リリースで行われた SpiderMonkey におけ
 
 # あとがき
 
-今週は、Vite 4.3 のリリースが個人的に印象に残りました。OSS であるにも関わらず、チーム全体でここまで集中してパフォーマンスの改善に力を入れられるのはすごいと思いました。ブログで紹介されていた個々の改善でやったことについても、`startsWith`/`endsWith` が `===` より遅いなど勉強になる話が多かったです。
+今週は、Vite 4.3 のリリースが個人的に印象に残りました。OSS であるにも関わらず、チーム全体でここまで集中してパフォーマンスの改善に力を入れられるのはすごいと思いました。ブログで紹介されていた改善の内容についても、`startsWith`/`endsWith` が `===` より遅いなど勉強になる話が多かったです。
 
 ---
 
