@@ -35,13 +35,13 @@ Vite 4.3 がリリースされました。パフォーマンスが大きく改�
 
 https://remix.run/docs/en/1.15.0/pages/v2
 
-Remix の v2 リリースに関するドキュメントです。File System Routing において、ディレクトリ構造を使うのをやめてフラット化する点が話題になりました。
+Remix の v2 リリースに関するドキュメントです。File System Routing において、ディレクトリ構造を利用するのをやめてフラット化する点が話題になりました。
 
 ## It's time to learn oklch color
 
 https://keithjgrant.com/posts/2023/04/its-time-to-learn-oklch-color/
 
-CSS で色を指定する関数の 1 つである `oklch()` の紹介記事です。 従来の `hsl()` と比較して、より人間の感覚に沿った色を指定できたり、指定できる色に制限がないなどのメリットがあるようです。
+CSS で色を指定する関数の 1 つである `oklch()` の紹介記事です。従来の `hsl()` と比較して `oklch()` では、人が感じる色の明るさや鮮やかさを考慮した色が生成されるようです。
 
 ## Shipping the biggest update for the components.
 
@@ -63,24 +63,10 @@ Firefox 112 - 113 の Nightly リリースで行われた SpiderMonkey におけ
 
 # あとがき
 
-今週は、Vite 4.3 のリリースが個人的に印象に残りました。OSS であるにも関わらず、チーム全体でここまで集中してパフォーマンスの改善に力を入れられるのはすごいと思いました。ブログで紹介されていた改善の内容についても、`startsWith`/`endsWith` が `===` より遅いなど勉強になる話が多かったです。
+今週は、Vite 4.3 のリリースが個人的に印象に残りました。OSS であるにも関わらず、チーム全体でここまで集中してパフォーマンスの改善に力を入れられるのはすごいと思いました。ブログで紹介されていた改善の内容についても、`startsWith` や `endsWith` が `===` より遅いなど勉強になる話が多かったです。
 
 ---
 
 サイボウズでは毎月、最終火曜日の 17 時から Frontend Monthly というイベントを YouTube Live で開催しています。その月のフロントエンド注目ニュースや、ゲストを呼んでの対談など、フロントエンドに関する発信をしていますので是非どうぞ！
 
 https://cybozu.github.io/frontend-monthly/
-
-また、サイボウズでは一緒にサイボウズのフロントエンドをより良くする仲間を募集しています。興味ある方はこちら ↓ から！
-
-**【フロントエンドエキスパート】**
-サイボウズのフロントエンドを最高にするためのチームです。
-
-https://cybozu.github.io/frontend-expert/
-
-https://cybozu.co.jp/recruit/entry/career/front-end-expert.html
-
-**【フロントエンドエンジニア（kintone アーキテクチャ刷新 PJ）】**
-クラウドサービス「kintone」のフロントエンドを新しくしています。
-
-https://cybozu.co.jp/recruit/entry/career/front-end-engineer-kintone.html
