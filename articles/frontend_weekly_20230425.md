@@ -41,7 +41,7 @@ Remix の v2 リリースに関するドキュメントです。File System Rout
 
 https://keithjgrant.com/posts/2023/04/its-time-to-learn-oklch-color/
 
-CSS で色を指定する関数の 1 つである `oklch()` の紹介記事です。従来の `hsl()` と比較して `oklch()` では、人が感じる色の明るさや鮮やかさを考慮した色が生成されるようです。
+CSS で色を指定する関数の 1 つである `oklch()` の紹介記事です。従来の `hsl()` と比較して、`oklch()` では人が感じる色の明るさや鮮やかさを考慮した色が生成されるようです。
 
 ## Shipping the biggest update for the components.
 
