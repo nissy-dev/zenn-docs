@@ -21,7 +21,7 @@ publication_name: "cybozu_frontend"
 
 https://github.com/w3c/csswg-drafts/issues/5629
 
-`@sheet` という記法を使って、CSS ファイル内に複数の stylesheet を定義する提案です。2020 年に作成されたこちらの提案が、3 週間ほど前に CSS の Working Group に受け入れられたようです。
+`@sheet` という記法を使って、CSS ファイル内に複数の stylesheet を定義する提案です。作成されたのは 2020 年のようなのですが、3 週間ほど前にこの提案が CSS の Working Group に受け入れられたようです。
 
 ## Announcing Vite 4.3
 
@@ -41,7 +41,7 @@ Remix の v2 リリースに関するドキュメントです。File System Rout
 
 https://keithjgrant.com/posts/2023/04/its-time-to-learn-oklch-color/
 
-CSS で色を指定する関数の 1 つである `oklch()` の紹介記事です。従来の `hsl()` と比較して、`oklch()` では人が感じる色の明るさや鮮やかさを考慮した色が生成されるようです。
+CSS で色を指定できる関数の 1 つである `oklch()` の紹介記事です。従来の `hsl()` と比較して、`oklch()` では人が感じる色の明るさや鮮やかさを考慮した色が生成されるようです。
 
 ## Shipping the biggest update for the components.
 
