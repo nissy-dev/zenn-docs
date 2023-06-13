@@ -7,7 +7,7 @@ published: false
 publication_name: "cybozu_frontend"
 ---
 
-6/1 ~ 6/2 にオランダのアムステルダムで開催された [JSNation](https://jsnation.com/) と [React Summit](https://reactsummit.com/) に参加してきました！この記事では、初めての海外カンファレンス参加についての感想を書きたいと思います。
+6/1 ~ 6/2 にオランダのアムステルダムで開催された [JSNation](https://jsnation.com/) と [React Summit](https://reactsummit.com/) に参加してきました！この記事では、初めての海外カンファレンスに参加した感想を書きたいと思います。
 
 ![](/images/js-nation-and-react-summit-2023/card.jpg =400x)
 _JSNation と React Summit のストラップ。_
@@ -16,11 +16,11 @@ _JSNation と React Summit のストラップ。_
 
 どちらも [GitNation](https://gitnation.org/) という団体が主催する JavaScript に関するカンファレンスです。
 
-JSNation に関しては JavaScript に関する発表を広く扱っており、Turbopack、Solid.js、Netlify、Google などをはじめとした有名な OSS・企業に所属する開発者による発表が予定されていました。
+JSNation に関しては JavaScript に関する発表を広く扱っており、Turbopack、Solid.js、Netlify、Google などをはじめとした有名な OSS や企業に所属する開発者からの発表が予定されていました。
 
 https://jsnation.com/
 
-React Summit に関しては React に関連する発表を多く扱っており、JSNation と同様に Redux、Vercel などの有名な OSS・企業に所属する開発者による発表が予定されていました。
+React Summit に関しては React に関連する発表を多く扱っており、JSNation と同様に Redux、Vercel などに所属する開発者からの発表が予定されていました。
 
 https://reactsummit.com/
 
@@ -82,7 +82,7 @@ _スライドの図がとても分かりやすい発表でした。_
 
 ### Next.js Metamorphosis
 
-Vercel の [Lee Robinson さん](https://twitter.com/leeerob)による Next.js の pages ディレクトリのコードを app ディレクトリのコードに置き換えるライブコーディングの発表でした。ライブコーディングでは、React Server Components によってデータ取得に関するコードと DOM に関するコードのコロケーションが可能になることをとても強調していたのが印象的でした。
+Vercel の [Lee Robinson さん](https://twitter.com/leeerob)による Next.js の pages ディレクトリのコードを app ディレクトリのコードに置き換えるライブコーディングの発表でした。ライブコーディングでは、React Server Components によってデータ取得に関するコードと UI に関するコードのコロケーションが可能になることをとても強調していたのが印象的でした。
 
 発表後の質問では、個人的にも気になっていた Next.js の pages ディレクトリをすぐに app ディレクトリに移行すべきかどうかの話がありました。登壇者によると、数年単位でのサポートを予定しており、すぐに移行する必要はそこまでないと述べていました。
 
