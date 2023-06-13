@@ -16,17 +16,17 @@ _JSNation と React Summit のストラップ。_
 
 どちらも [GitNation](https://gitnation.org/) という団体が主催する JavaScript に関するカンファレンスです。
 
-JSNation に関しては JavaScript に関する発表を広く扱っており、今年のセッションとしては Webpack と Turbopack の開発者である [Tobias Koppers](https://twitter.com/wSokra) さんをはじめとして、Solid.js や Node.js などの OSS メンテナーや Netlify や Google などに所属する開発者による発表が予定されていました。
+JSNation に関しては JavaScript に関する発表を広く扱っており、Turbopack、Solid.js、Netlify、Google などをはじめとした有名な OSS・企業に所属する開発者による発表が予定されていました。
 
 https://jsnation.com/
 
-React Summit に関しては React に関連する発表を多く扱っており、JSNation と同様に Redux や Vercel のような有名な OSS や企業に所属する開発者による発表が予定されていました。
+React Summit に関しては React に関連する発表を多く扱っており、JSNation と同様に Redux、Vercel などの有名な OSS・企業に所属する開発者による発表が予定されていました。
 
 https://reactsummit.com/
 
-今回は、この２つのカンファレンスの in-person のセッションが 6/1 ~ 6/2 にオランダのアムステルダムで行われたので、初の海外カンファレンスとして参加してきました。今回の参加のきっかけとしては、最近自分が core contributor になった Rome のメンバーの一人 [@ematipico](https://twitter.com/ematipico) が JSNation で登壇するとのことで、その発表を生で聴いて実際にコミュニケーションをとってみたかったというところが大きかったです。カンファレンス自体は、土日を挟んで 6/5 ~ 6/6 にもライブ配信のみのセッションがありました。
+今回は、この２つのカンファレンスの in-person のセッションが 6/1 ~ 6/2 にオランダのアムステルダムで行われたので、初の海外カンファレンスとして参加してきました。今回の参加のきっかけとしては、最近自分が core contributor になった Rome のメンバーの一人 [Emanuele Stoppa さん](https://twitter.com/ematipico) が JSNation で登壇するとのことで、その発表を生で聴いて実際にコミュニケーションをとってみたかったというところが大きかったです。カンファレンス自体は、土日を挟んで 6/5 ~ 6/6 にもライブ配信のみのセッションがありました。
 
-GitNation が主催するカンファレンスにはこの２つ以外にもヨーロッパを中心に JavaScript 関連のものがいくつか開催されているようなので、海外カンファレンスに興味がある人にはおすすめです。[^1]
+GitNation が主催するカンファレンスには、この２つ以外にもヨーロッパを中心に JavaScript 関連のものがいくつか開催されているようなので、海外カンファレンスに興味がある人にはおすすめです。[^1]
 
 [^1]: https://gitnation.org/#events や https://confs.tech/ などを使って海外カンファレンスを検索するのがおすすめです
 
@@ -44,7 +44,7 @@ https://www.youtube.com/watch?v=ynNDmp7hBdo
 
 ### The Core of Turbopack Explained (Live Coding)
 
-Webpack と Tubopack の開発者 [sokra さん](https://twitter.com/wSokra)によるライブコーディングの発表でした。内容としては、Turbo Engine のコア処理の紹介ということで、JavaScript のモジュールグラフのキャッシュの登録や削除の実装をしていました。
+Webpack と Tubopack の開発者 [sokra さん](https://twitter.com/wSokra)によるライブコーディングの発表でした。内容としては、Turbo Engine の core の紹介ということで、JavaScript のモジュールグラフのキャッシュの登録や削除の実装をしていました。
 
 https://twitter.com/marcelcutts/status/1664229678071119874?s=20
 
@@ -67,11 +67,11 @@ MobX の開発者の [Michel Weststrate さん](https://twitter.com/mweststrate)
 
 https://twitter.com/coding_garden/status/1664540702825488385?s=20
 
-以前 Signal 関連の話題が Twitter で盛り上がっていた時に社内でも似たような話をしたので、話の内容には親近感が湧きました。発表の最後には、「everything old is new again」や「Dogma kills innovation」という言葉でしめていたのも印象的でした。
+以前 Signal 関連の話題が Twitter で盛り上がっていた時に社内でも似たような話をしたので、話の内容には親近感が湧きました。発表の最後には、「Everything old is new again」や「Dogma kills innovation」という言葉でしめていたのも印象的でした。
 
 ### You Can’t Use Hooks Conditionally… or Can You?
 
-昨年話題になった [React の `use`](https://github.com/reactjs/rfcs/pull/229) という Hooks が条件分岐の中でも呼び出せるということをきっかけに、条件分岐の中で呼べる Hooks と呼べない Hooks の違いを解説した発表でした。
+昨年話題になった [React の `use`](https://github.com/reactjs/rfcs/pull/229) という Hooks が条件分岐の中でも呼び出せるということをきっかけに、条件分岐の中で呼びだすことができる Hooks と呼び出すことができない Hooks の違いを解説した発表でした。
 
 `use` 以外には `useContext` も条件分岐の中で呼びだすことができるようで、発表では通常の Hooks と useContext がどのように fiber ツリーの中で管理されているのかを解説していました。[^2] 個人的には、React の fiber ツリーの知識もあまりなかったので勉強になる発表でした。
 
@@ -82,7 +82,7 @@ _スライドの図がとても分かりやすい発表でした。_
 
 ### Next.js Metamorphosis
 
-Vercel の [Lee Robinson さん](https://twitter.com/leeerob)による Next.js の pages ディレクトリのコードを app ディレクトリのコードに置き換えるライブコーディングの発表でした。(TODO) ライブコーディングでは、React Server Components によってデータ取得のコードとコンポーネントのコードのコロケーションが可能になることをとても強調していたのが印象的でした。
+Vercel の [Lee Robinson さん](https://twitter.com/leeerob)による Next.js の pages ディレクトリのコードを app ディレクトリのコードに置き換えるライブコーディングの発表でした。ライブコーディングでは、React Server Components によってデータ取得に関するコードと DOM に関するコードのコロケーションが可能になることをとても強調していたのが印象的でした。
 
 発表後の質問では、個人的にも気になっていた Next.js の pages ディレクトリをすぐに app ディレクトリに移行すべきかどうかの話がありました。登壇者によると、数年単位でのサポートを予定しており、すぐに移行する必要はそこまでないと述べていました。
 
@@ -121,4 +121,4 @@ https://twitter.com/ReactSummit/status/1664642335903215616?s=20
 
 正直、初めての海外カンファレンスに参加するのは不安でしたが、自信がついたことからもっと頑張らなきゃと思えるようなことまで色々な経験をできて良かったと思います。英語力に関しては多少わかる程度で参加しても、カンファレンスから得られるもはそれなりにあると思います。
 
-有名な OSS のコントリビューターに会える数少ない機会なので、今後もこのような海外カンファレンスに積極的に参加して、自信を持って海外のスピーカーを日本に招待できるようになろうと思います。また、いつか自分もこういうところで発表できるような OSS コントリビューターになれたらいいなと思います。
+有名な開発者に会える数少ない機会なので、今後もこのような海外カンファレンスに積極的に参加して、登壇しているような方々と自信を持って議論できるようになっていきたいと思います。また、いつか自分もこういうところで発表できるような OSS コントリビューターになれたらいいなと思います。
