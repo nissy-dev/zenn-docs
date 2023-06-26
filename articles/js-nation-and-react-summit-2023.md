@@ -3,7 +3,7 @@ title: "オランダで開催された JS Nation と React Summit に参加し�
 emoji: "🇳🇱"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["javascript", "react", "typescript", "vercel"]
-published: false
+published: true
 publication_name: "cybozu_frontend"
 ---
 
