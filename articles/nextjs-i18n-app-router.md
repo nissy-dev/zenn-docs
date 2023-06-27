@@ -1,5 +1,5 @@
 ---
-title: "App Router への移行でライブラリを使わずに i18n に対応してみた"
+title: "Pages Router と App Router での i18n 対応の違い"
 emoji: "🗺️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["react", "nextjs", "i18n"]
@@ -229,7 +229,7 @@ export const getTranslation = (locale: Locale) => {
 
 ## 移行した感想
 
-上記の手順で App Router でも i18n の機能を移行できました。一方で、やはり Page Router の場合の方が i18n を簡単に導入できたので、移行した感想としては次の２点が残る感じにはなりました。
+上記の手順で App Router でもライブラリを導入することなく i18n の機能を移行できました。一方で、やはり Page Router の場合の方が i18n を簡単に導入できたので、移行した感想としては次の２点が残る感じにはなりました。
 
 - middleware の実装はなるべく楽をしたい
 - Server Components と Client Components で文言取得用の関数を使い分けたくない
