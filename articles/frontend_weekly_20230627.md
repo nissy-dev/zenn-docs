@@ -27,7 +27,7 @@ App Router の最新状況について共有している記事になっていま
 
 https://vercel.com/blog/an-introduction-to-streaming-on-the-web
 
-Web Stream の概要の紹介しつつ、Vercel での応用例について触れている記事です。Web Stream の特徴などを図なども交えながら解説しており、Web Stream にあまり詳しくない人におすすめの記事になっています。
+Web Stream の概要の紹介しつつ、Vercel での応用例について触れている記事です。図を交えながら Web Stream の特徴を解説しており、Web Stream にあまり詳しくない人におすすめの記事になっています。
 
 ## Nuxt 3.6
 
