@@ -1,6 +1,6 @@
 ---
-title: "[目立ったニュース]など : Cybozu Frontend Weekly (2023/06/27号)" # 目立ったニュースを選ぶ
-emoji: "🆕" # お好きな絵文字を
+title: "Next.js の App Router の最新状況など : Cybozu Frontend Weekly (2023/06/27号)"
+emoji: "⚡" # お好きな絵文字を
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["CybozuFrontendWeekly", "frontend"]
 published: false
@@ -21,13 +21,13 @@ publication_name: "cybozu_frontend"
 
 https://nextjs.org/blog/june-2023-update
 
-App router の最新状況について共有してくれている記事になっています。現在は、パフォーマンスの改善、安定性の向上、開発者向けの概念や利用方法の解説の 3 つにフォーカスしているようです。
+App Router の最新状況について共有している記事になっています。現在は、パフォーマンスの改善、安定性の向上、開発者向けの概念や利用方法の解説の 3 つにフォーカスしているようです。
 
 ## An Introduction to Streaming on the Web
 
 https://vercel.com/blog/an-introduction-to-streaming-on-the-web
 
-Web Stream API の概要の紹介しつつ、Vercel での応用例について触れている記事です。Web Stream の特徴などを図なども交えながら解説しており、Web Stream にあまり詳しくない人におすすめの記事になっています。
+Web Stream の概要の紹介しつつ、Vercel での応用例について触れている記事です。Web Stream の特徴などを図なども交えながら解説しており、Web Stream にあまり詳しくない人におすすめの記事になっています。
 
 ## Nuxt 3.6
 
@@ -51,7 +51,7 @@ Cloudflare が HTTP/3 での Prioritization をサポートしたという記事
 
 https://developers-jp.googleblog.com/2023/06/build-maps-faster-web-components.html
 
-Google Map を Web Components がプレビューとして利用できるようになりました。Google Map をウェブサイトへ導入する際の開発者体験が改善されそうで、Web Components の良い活用例となりそうです。
+Google Map をサイト上に表示できる Web Components がプレビュー版として利用できるようになりました。Google Map をウェブサイトへ導入する際の開発者体験が改善されそうで、Web Components の良い活用例となりそうです。
 
 ## New W3C website deployed
 
@@ -65,7 +65,7 @@ Weekly では、どのようなフレームワークでウェブサイトが実�
 
 https://zenn.dev/saggggo/articles/dbd739508ac212
 
-npm、yarn、pnpm のパッケージマネージャーがどのように node_modules をインストールしてきたのかを時系列で振り返る記事です。最近だと pnpm を利用する人が増えている印象がありますが、pnpm の特徴や解決する課題などを理解することができます。
+npm、yarn、pnpm のパッケージマネージャーがどのように node_modules をインストールしてきたのかを時系列で振り返る記事です。最近だと pnpm を利用する人が増えている印象がありますが、この記事では pnpm の特徴や解決する課題などを理解することができます。
 
 ## Zero-config support for Tailwind, MUI, styled-components, and Emotion
 
@@ -75,7 +75,7 @@ TailwindCSS、Material UI などの CSS フレームワーク向けの設定を�
 
 # あとがき
 
-[ひとこと(なくても可?)]
+個人的には、学生時代のインターンで WordPress のサイトに Google Map を埋め込む実装に苦労した記憶があるので、Web Components で埋め込めるのは便利な時代になったな〜と感じました。
 
 サイボウズでは毎月、最終火曜日の 17 時から Frontend Monthly というイベントを YouTube Live で開催しています。その月のフロントエンド注目ニュースや、ゲストを呼んでの対談など、フロントエンドに関する発信をしていますので是非どうぞ！
 
