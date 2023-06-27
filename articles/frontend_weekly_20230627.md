@@ -7,7 +7,7 @@ published: false
 publication_name: "cybozu_frontend"
 ---
 
-こんにちは! サイボウズ株式会社フロントエンドエキスパートチームの [nissy](https://twitter.com/nissy_dev) です。
+こんにちは! サイボウズ株式会社フロントエンドエンジニアの [nissy](https://twitter.com/nissy_dev) です。
 
 # はじめに
 
@@ -39,13 +39,13 @@ Nuxt 3.6 がリリースされました 🎉 パフォーマンス改善など�
 
 https://dev.to/aralroca/say-goodbye-to-spread-operator-use-default-composer-3c2j
 
-デフォルト値など設定する場合に、スプレッド構文より [default composer](https://github.com/aralroca/default-composer) の利用を進めている記事です。Weekly では、コメント欄での lodash などが引き合いに出された議論が話題になりました。
+デフォルト値など設定する場合に、スプレッド構文より [default composer](https://github.com/aralroca/default-composer) の利用を進めている記事です。Weekly では、lodash などが引き合いに出されたコメント欄での議論が話題になりました。
 
 ## Introducing HTTP/3 Prioritization
 
 https://blog.cloudflare.com/better-http-3-prioritization-for-a-faster-web/
 
-Cloudflare が HTTP/3 での Prioritization をサポートしたという記事です。ウェブサイトの表示の際に読み込まれる各リソースの優先度を適切に決めることで、LCP などのメトリクスを改善できる可能性があるようです。この記事では、優先度の設定の方法などについても解説されています。
+Cloudflare が HTTP/3 での Prioritization をサポートしたという記事です。ウェブサイトで読み込まれる各リソースの優先度を適切に決めることで、LCP などのメトリクスを改善できる可能性があるようです。この記事では、優先度の設定の方法などについても解説されています。
 
 ## Web Components を使用してマップ作成時間を短縮
 
@@ -75,7 +75,7 @@ TailwindCSS、Material UI などの CSS フレームワーク向けの設定を�
 
 # あとがき
 
-個人的には、学生時代のインターンで WordPress のサイトに Google Map を埋め込む実装に苦労した記憶があるので、Web Components で埋め込めるのは便利な時代になったな〜と感じました。
+個人的には、学生時代のインターンで WordPress のサイトに Google Map を埋め込む実装に苦労した記憶があるので、Web Components で埋め込めるようになったのは便利だな〜と感じました。どこかで使ってみたいですね。
 
 サイボウズでは毎月、最終火曜日の 17 時から Frontend Monthly というイベントを YouTube Live で開催しています。その月のフロントエンド注目ニュースや、ゲストを呼んでの対談など、フロントエンドに関する発信をしていますので是非どうぞ！
 
