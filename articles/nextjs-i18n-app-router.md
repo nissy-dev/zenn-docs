@@ -1,5 +1,5 @@
 ---
-title: "個人ブログの App Router 移行における i18n 周りの対応について"
+title: "App Router への移行でライブラリを使わずに i18n に対応してみた"
 emoji: "🗺️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["react", "nextjs", "i18n"]
@@ -7,13 +7,11 @@ published: false
 publication_name: "cybozu_frontend"
 ---
 
-Next.js で作っていた個人ブログの Pages Router から App Router へ移行を試みていたのですが、軽い気持ちで実装していた i18n 周りの移行に苦労しました。このブログでは、具体的な移行手順を紹介しながら苦労した点などを紹介したいと思います。
+Next.js で作っていた個人ブログの Pages Router から App Router へ移行を試みていたのですが、軽い気持ちで実装していた i18n 周りの移行に苦労しました。このブログでは、ライブラリを使わずに i18n 対応する際の Pages Router と App Router での実装方法の違いについて紹介したいと思います。
 
 :::message
 自分の個人ブログでは、[Static Exports](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports) を利用していません。Static Exports を利用している場合には、[こちらの記事](https://blog.arthur1.dev/entry/2023/06/04/100000)が参考になるかもしれません。
 :::
-
-## ３行まとめ
 
 ## i18n 対応で必要なこと
 
@@ -229,19 +227,19 @@ export const getTranslation = (locale: Locale) => {
 };
 ```
 
-## まとめ
+## 移行した感想
 
 上記の手順で App Router でも i18n の機能を移行できました。一方で、やはり Page Router の場合の方が i18n を簡単に導入できたので、移行した感想としては次の２点が残る感じにはなりました。
 
 - middleware の実装はなるべく楽をしたい
 - Server Components と Client Components で文言取得用の関数を使い分けたくない
 
-これらの課題感を解消するようなライブラリはあるのか調べたところ、[next-translate](https://github.com/aralroca/next-translate) が良さそうに感じました。
+これらの課題感を解消するようなライブラリがあるのか調べたところ、[next-translate](https://github.com/aralroca/next-translate) が良さそうに感じました。
 
 https://aralroca.com/blog/i18n-translations-nextjs-13-app-dir
 
-特に、文言取得用の関数を同じ useTransition という API で提供しているのには驚きました。個人的にどのように実現しているのか気になって調べたところ、ビルド時に動的にコードを書き換えているようです。
+特に、文言取得用の関数を Server Components と Client Components 向けに同じ useTranslation という API で提供しているのには驚きました。個人的にどのように実現しているのか気になって調べたところ、ビルド時に動的にコードを書き換えているようです。
 
 https://github.com/aralroca/next-translate-plugin/blob/67e728a9d2881de3d4ccc15f40ecf9f89899415a/src/templateAppDir.ts
 
-ここら辺は Webpack から Turbopack への移行の障害にもなってしまいそうなので気になりますが、今度どこかで使う機会があれば試してみたいと思います。
+この実装方法では Webpack から Turbopack への移行の障害にもなってしまいそうなので気になりますが、今度どこかで使う機会があれば試してみたいと思います。
