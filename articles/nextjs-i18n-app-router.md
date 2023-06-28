@@ -17,9 +17,9 @@ Next.js で作っていた個人ブログの App Router への移行を試みて
 
 個人ブログの i18n 対応でやっていることは、大きく次の２つになります。
 
-- ルーティングと言語の判定
-  - `/blog` の場合には、デフォルトの locale ("ja") を割り当てる
-  - `/en/blog` の場合には、パスで指定されている locale ("en") を割り当てる
+- ユーザーの locale の判定とルーティング
+  - デフォルトの locale ("ja") の場合には `/blog` へ向ける
+  - デフォルトの locale 以外 ("en") の場合には `/en/blog` へ向ける
 - 文言のローカライゼーション
   - locale に応じて `t("some-key")` のような関数で文言を出し分ける
 
@@ -27,7 +27,7 @@ Next.js で作っていた個人ブログの App Router への移行を試みて
 
 ## Pages Router での i18n 対応
 
-まず、「ルーティングと言語の判定」についてですが、こちらについては Next.js が提供している i18n Routing という機能を使って対応することができます。
+まず、「ユーザーの locale の判定とルーティング」についてですが、こちらについては Next.js が提供している i18n Routing という機能を使って対応することができます。
 
 https://nextjs.org/docs/pages/building-your-application/routing/internationalization
 
@@ -95,9 +95,9 @@ Pages Router の場合は、このように外部のライブラリに頼る必�
 
 ## App Router での i18n 対応
 
-App Router では Page Router でサポートされていた機能の多くを利用することができず、自分で実装する必要がありました。「ルーティングと言語の判定」と「文言のローカライゼーション」について、それぞれ詳しく説明していきます。
+App Router では Page Router でサポートされていた機能の多くを利用することができず、自分で実装する必要がありました。「ユーザーの locale の判定とルーティング」と「文言のローカライゼーション」について、それぞれ詳しく説明していきます。
 
-### ルーティングと言語の判定
+### ユーザーの locale の判定とルーティング
 
 Pages Router の場合に利用した i18n Routing ですが、App Router では利用できなくなりました。このため、同様の処理を [middleware](https://nextjs.org/docs/app/building-your-application/routing/middleware) や [rewrites](https://nextjs.org/docs/app/api-reference/next-config-js/rewrites) の機能を使って対応する必要があります。
 
@@ -107,6 +107,9 @@ https://nextjs.org/docs/app/building-your-application/routing/internationalizati
 
 - middleware を利用して、ユーザーの locale が デフォルト値 ("ja") でない場合に locale の prefix をパスに付与してリダイレクトさせる
 - rewrites を利用して、パスに locale の prefix がない場合にデフォルトの locale ("ja") を割り当てる
+
+![](/images/nextjs-i18n-app-router/app-router-abstract.png)
+_リクエストが処理される流れ。_
 
 まず middleware の実装は次のようになります。公式ドキュメントの実装を参考にしつつ、リダイレクトの条件だけを変えています。
 
@@ -146,7 +149,7 @@ export const config = {
 };
 ```
 
-ユーザの locale がデフォルト値と同じになる場合には、リダイレクトさせないようにしました。これは、"ja" ロケールのユーザーが `/ja/blog` にリダイレクトしないようにするためです。
+ユーザの locale がデフォルト値と同じになる場合には、リダイレクトさせないようにしました。これは、デフォルトロケールである "ja" ロケールのユーザーが `/ja/blog` にリダイレクトしないようにするためです。
 
 そして、パスに locale を含まないかつユーザーの locale がデフォルト値の場合については、次のような rewrites の設定を書くことによってデフォルトの locale を割り当てました。
 
