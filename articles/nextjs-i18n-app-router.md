@@ -7,7 +7,7 @@ published: false
 publication_name: "cybozu_frontend"
 ---
 
-Next.js で作っていた個人ブログの Pages Router から App Router へ移行を試みていたのですが、軽い気持ちで実装していた i18n 周りの移行に苦労しました。このブログでは、ライブラリを使わずに i18n 対応する際の Pages Router と App Router での実装方法の違いについて紹介したいと思います。
+Next.js で作っていた個人ブログの App Router への移行を試みていたのですが、軽い気持ちで実装していた i18n 周りの移行に苦労しました。このブログでは、ライブラリを使わずに i18n 対応する際の Pages Router と App Router での実装方法の違いについて紹介したいと思います。
 
 :::message
 自分の個人ブログでは、[Static Exports](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports) を利用していません。Static Exports を利用している場合には、[こちらの記事](https://blog.arthur1.dev/entry/2023/06/04/100000)が参考になるかもしれません。
@@ -23,7 +23,7 @@ Next.js で作っていた個人ブログの Pages Router から App Router へ�
 - 文言のローカライゼーション
   - locale に応じて `t("some-key")` のような関数で文言を出し分ける
 
-それぞれについて、Pages Router と App Router の時の実装を見ていきます。
+それぞれについて、Pages Router と App Router の場合の実装を見ていきます。
 
 ## Pages Router での i18n 対応
 
