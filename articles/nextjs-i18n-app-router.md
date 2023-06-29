@@ -215,7 +215,7 @@ export const useTranslation = (): {
 };
 ```
 
-また、App Router で利用できる Server Component では hooks を利用できません。このため、Server Components で使う文言取得用の関数も別で定義します。
+また、App Router で利用できる Server Component では hooks を利用できません。このため、Server Components で使う文言取得用の関数も別で定義します。この関数を利用する際は、locale を引数に渡す必要があります。
 
 ```ts:i18n/getTransition.tsx
 import "server-only";
@@ -232,17 +232,12 @@ export const getTranslation = (locale: Locale) => {
 
 ## 移行した感想
 
-上記の手順で App Router でもライブラリを導入することなく i18n の機能を移行できました。一方で、やはり Page Router の場合の方が i18n を簡単に導入できたので、移行した感想としては次の２点が残る感じにはなりました。
+上記の手順で App Router でもライブラリを導入することなく i18n の機能を移行できました。一方で、やはり Page Router の場合の方が i18n を簡単に導入できたので、個人ブログでは i18n 対応しなくていいかな...とはなりました。
 
-- middleware の実装はなるべく楽をしたい
-- Server Components と Client Components で文言取得用の関数を使い分けたくない
+App Router に対応しつつ今回のような i18n 対応を簡単にできるライブラリがあるのか調べたところ、[next-translate](https://github.com/aralroca/next-translate) や [next-intl](https://next-intl-docs.vercel.app/) が良さそうに感じました。
 
-これらの課題感を解消するようなライブラリがあるのか調べたところ、[next-translate](https://github.com/aralroca/next-translate) が良さそうに感じました。
-
-https://aralroca.com/blog/i18n-translations-nextjs-13-app-dir
-
-特に、文言取得用の関数を Server Components と Client Components 向けに同じ useTranslation という API で提供しているのには驚きました。個人的にどのように実現しているのか気になって調べたところ、ビルド時に動的にコードを書き換えているようです。
+next-translate については、文言取得用の関数を Server Components と Client Components 向けに同じ API で提供しているのには驚きました。個人的にどのように実現しているのか気になって調べたところ、ビルド時に動的にコードを書き換えているようです。
 
 https://github.com/aralroca/next-translate-plugin/blob/67e728a9d2881de3d4ccc15f40ecf9f89899415a/src/templateAppDir.ts
 
-この実装方法では Webpack から Turbopack への移行の障害にもなってしまいそうなので気になりますが、今度どこかで使う機会があれば試してみたいと思います。
+この実装方法では Webpack から Turbopack への移行の障害にもなってしまいそうなので、個人的には next-intl の方が将来性のあるライブラリなのかなとは思います。Next.js でのサポートが改善されるのを期待しつつ、今度どこかで使う機会があれば試してみたいと思います。
