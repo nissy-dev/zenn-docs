@@ -103,10 +103,10 @@ Pages Router の場合に利用した i18n Routing ですが、App Router では
 
 https://nextjs.org/docs/app/building-your-application/routing/internationalization
 
-今回の個人ブログの場合では、`app/[locale]` ディレクトリを作成し、次のような処理を実装することで対応しました。
+今回の個人ブログの場合では、`app/[locale]` ディレクトリを作成し、URL に locale の prefix がついていない場合に関して次のような処理を実装することで対応しました。
 
-- middleware を利用して、ユーザーの locale が デフォルト値 ("ja") でない場合に locale の prefix をパスに付与してリダイレクトさせる
-- rewrites を利用して、パスに locale の prefix がない場合にデフォルトの locale ("ja") を割り当てる
+- ユーザーの locale がデフォルト値 ("ja") でない場合に、middleware を利用して locale の prefix をパスに付与してリダイレクトさせる
+- ユーザーの locale がデフォルト値 ("ja") である場合に、rewrites を利用してデフォルトの locale ("ja") を含むパスにマッピングする
 
 ![](/images/nextjs-i18n-app-router/app-router-abstract.png)
 _リクエストが処理される流れ。_
