@@ -215,7 +215,7 @@ export const useTranslation = (): {
 };
 ```
 
-また、App Router で利用できる Server Component では hooks を利用できません。このため、Server Components で使う文言取得用の関数も別で定義します。この関数を利用する際は、locale を引数に渡す必要があります。
+また、App Router で利用できる Server Components では hooks を利用できません。このため、Server Components で使う文言取得用の関数も別で定義します。この関数を利用する際は、locale を引数に渡す必要があります。
 
 ```ts:i18n/getTransition.tsx
 import "server-only";
