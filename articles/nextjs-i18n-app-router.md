@@ -13,6 +13,12 @@ Next.js で作っていた個人ブログの App Router への移行を試みて
 自分の個人ブログでは、[Static Exports](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports) を利用していません。Static Exports を利用している場合には、[こちらの記事](https://blog.arthur1.dev/entry/2023/06/04/100000)が参考になるかもしれません。
 :::
 
+## ３行まとめ
+
+- Pages Router で利用できた [i18n Routing](https://nextjs.org/docs/pages/building-your-application/routing/internationalization) が App Router では利用できない
+- App Router で i18n 対応を実装するには、Next.js の [middleware](https://nextjs.org/docs/app/building-your-application/routing/middleware) や [rewrites](https://nextjs.org/docs/app/api-reference/next-config-js/rewrites) などの機能をうまく活用する
+- App Router 向けの i18n 対応向けのライブラリは、ビルド時にコードを大きく書き換えており、Tubopack などを見据えた将来的な安定性に少し不安がある
+
 ## i18n 対応で必要なこと
 
 個人ブログの i18n 対応でやっていることは、大きく次の２つになります。
@@ -37,7 +43,7 @@ https://nextjs.org/docs/pages/building-your-application/routing/internationaliza
 module.exports = {
   i18n: {
     // 対応したい全ての locale
-    locales: ['en-US', 'ja'],
+    locales: ['en', 'ja'],
     // URL パスに locale のプレフィックスがない場合に利用される locale
     defaultLocale: 'ja',
   },
@@ -51,13 +57,7 @@ module.exports = {
 import { useCallback } from "react";
 import { useRouter } from "next/router";
 
-import {
-  RESOURCES,
-  DEFAULT_LOCALE,
-  isSupportLocale,
-  i18Key,
-  Locale
-} from "./resources";
+import { RESOURCES, DEFAULT_LOCALE, isSupportLocale, i18Key, Locale } from "./resources";
 
 export const useTranslation = (): {
   t: (key: i18nKey) => string;
@@ -76,6 +76,10 @@ export const useTranslation = (): {
 };
 ```
 
+:::details resources.ts の実装について
+
+次のように汎用的に利用するデータや型を定義して export しています。
+
 ```ts:i18n/resource.ts
 import en from "./locales/en.json";
 import ja from "./locales/ja.json";
@@ -91,6 +95,27 @@ export const isSupportLocale = (locale: string | undefined): locale is Locale =>
   locale !== undefined && Object.keys(RESOURCES).includes(locale);
 ```
 
+:::
+
+今回定義した hooks については、例えば `/blog` のエントリーになるファイルで次のように利用します。
+
+```tsx:pages/blog.tsx
+import { SUPPORTED_LOCALES } from "../i18n/resources";
+import { useTranslation } from "../i18n/useTranslation";
+
+export const getStaticPaths = ({ locales }) => {
+  return {
+    paths: SUPPORTED_LOCALES.map((locale) => ({ locale })),
+    fallback: true,
+  }
+}
+
+export default function BlogHome() {
+  const { t } = useTranslation()
+  return <div>{t('blog-home')}</div>
+}
+```
+
 Pages Router の場合は、このように外部のライブラリに頼る必要もなく簡単に実装できるということもあり、個人ブログでもサイト内の一部のコンテンツに限定して i18n の対応をしていました。
 
 ## App Router での i18n 対応
@@ -103,7 +128,7 @@ Pages Router の場合に利用した i18n Routing ですが、App Router では
 
 https://nextjs.org/docs/app/building-your-application/routing/internationalization
 
-今回の個人ブログの場合では、`app/[locale]` ディレクトリを作成し、URL に locale の prefix がついていない場合に関して次のような処理を実装することで対応しました。
+今回の場合では、`app/[locale]/blog` のようなディレクトリを作成し、URL に locale の prefix がついていない場合に関して次のような処理を実装することで対応しました。
 
 - ユーザーの locale がデフォルト値 ("ja") でない場合に、middleware を利用して locale の prefix をパスに付与してリダイレクトさせる
 - ユーザーの locale がデフォルト値 ("ja") である場合に、rewrites を利用してデフォルトの locale ("ja") を含むパスにマッピングする
@@ -173,34 +198,19 @@ Pages Router の際に利用していた `useRouter` の帰り値に含まれる
 
 https://nextjs.org/docs/pages/building-your-application/upgrading/app-router-migration#step-5-migrating-routing-hooks
 
-そのため、代わりに `usePathname` の返り値から locale を取得して、Pages Router のときと同様の hooks を実装しました。
+そのため、params として取得できる locale を Context としてアクセスできるようにし、Pages Router のときと同様の hooks を実装しました。
 
-```ts:i18n/useTranslation.tsx
-import { useRouter } from "next/router";
-import { useCallback } from "react";
+```ts:i18n/client.ts
+import { createContext, useContext, useCallback } from "react";
 
-import {
-  RESOURCES,
-  SUPPORTED_LOCALES,
-  DEFAULT_LOCALE,
-  isSupportLocale,
-  i18nKey,
-  Locale
-} from "./resources";
+import { RESOURCES, DEFAULT_LOCALE, Locale, i18nKey, isSupportLocale } from "./resources";
+
+export const LocaleContext = createContext<Locale>(DEFAULT_LOCALE);
 
 export const useTranslation = (): {
   t: (key: i18nKey) => string;
-  locale: Locale;
 } => {
-  const pathname = usePathname();
-  // pathname に locale の prefix が含まれている場合に取得する
-  const pathnameWithLocale = SUPPORTED_LOCALES.some((locale) =>
-    pathname.startsWith(`/${locale}`)
-  );
-  const currentLocale = pathnameWithLocale
-    ? pathname.split("/")[1]
-    : DEFAULT_LOCALE;
-
+  const currentLocale = useContext(LocaleContext);
   if (!isSupportLocale(currentLocale)) {
     throw new Error(`Unsupported locale: ${currentLocale}`);
   }
@@ -215,29 +225,88 @@ export const useTranslation = (): {
 };
 ```
 
-また、App Router で利用できる Server Components では hooks を利用できません。このため、Server Components で使う文言取得用の関数も別で定義します。この関数を利用する際は、locale を引数に渡す必要があります。
+利用方法としては、まず `LocaleContext` の Provider を `layout.tsx` で追加します。
 
-```ts:i18n/getTransition.tsx
+```tsx:app/[locale]/blog/layout.tsx
+import React from "react";
+import { LocaleContext } from "../../../i18n/client";
+
+export default function Layout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { locale: string };
+}) {
+  return (
+    <html lang={params.locale}>
+      <body>
+        <LocaleContext.Provider lang={params.locale}>
+          {children}
+        <LocaleContext.Provider/>
+      </body>
+    </html>
+  );
+}
+```
+
+そして、次のように Client Component で hooks を利用します。
+
+```tsx:app/[locale]/blog/_components/client-component.tsx
+"use client";
+
+import { useTransition } from "./../../../i18n/client";
+
+export default function ClientComponent() {
+  const { t } = useTransition()
+  return <div>{t('blog-home')}</div>
+}
+```
+
+また、App Router で利用できる Server Components では hooks を利用できません。このため、Server Components で使う文言取得用の関数も別で定義します。
+
+```ts:i18n/server.ts
 import "server-only";
 
-import { RESOURCES, SUPPORTED_LOCALES, Locale, i18nKey } from "./resources";
+import { RESOURCES, Locale, i18nKey, isSupportLocale } from "./resources";
 
 export const getTranslation = (locale: Locale) => {
-  if (!SUPPORTED_LOCALES.includes(locale)) {
+  if (!isSupportLocale(locale)) {
     throw new Error(`Unsupported locale: ${locale}`);
   }
   return { t: (key: i18nKey) => RESOURCES[locale][key] };
 };
 ```
 
+そして、上記で定義した getTranslation を次のように利用します。
+
+```tsx:app/[locale]/blog/pages.tsx
+import { SUPPORTED_LOCALES } from "./../../i18n/resources";
+import { getTransition } from "./../../i18n/server";
+
+export async function generateStaticParams() {
+  return SUPPORTED_LOCALES.map((locale) => ({ locale }));
+}
+
+export default async function BlogHome({ params }: { params: { locale: string } }) {
+  const { t } = getTransition(params.locale)
+  return <div>{t('blog-home')}</div>
+}
+```
+
 ## 移行した感想
 
-上記の手順で App Router でもライブラリを導入することなく i18n の機能を移行できました。一方で、やはり Page Router の場合の方が i18n を簡単に導入できたので、個人ブログでは i18n 対応しなくていいかな...とはなりました。
+上記の手順で App Router でもライブラリを導入することなく i18n の機能を移行できました。一方で、やはり Page Router の場合の方が i18n を簡単に導入できたので、今回の対応では次のような感想を持ちました。
 
-App Router に対応しつつ今回のような i18n 対応を簡単にできるライブラリがあるのか調べたところ、[next-translate](https://github.com/aralroca/next-translate) や [next-intl](https://next-intl-docs.vercel.app/) が良さそうに感じました。
+- middleware の実装で楽をしたい
+- Server Components の文言のローカライゼーション用の関数 (getTransition) は locale を引数に取るのが気になる
 
-next-translate については、文言取得用の関数を Server Components と Client Components 向けに同じ API で提供しているのには驚きました。個人的にどのように実現しているのか気になって調べたところ、ビルド時に動的にコードを書き換えているようです。
+これらの課題を解決するライブラリがあるのか調べたところ、[next-translate](https://github.com/aralroca/next-translate) や [next-intl](https://next-intl-docs.vercel.app/) がありそうです。どちらのライブラリについても、middleware の実装は提供されている関数を利用して数行で実装でき、文言のローカライゼーション用の関数についても useTransition のような関数を ClientComponents と Server Components のどちらでも呼べるようになっています。
+
+文言のローカライゼーション用の関数のインターフェイスをどうやって揃えるのかについて気になったので調べたところ、次の実装にあるようにビルド時に動的にコードを書き換えているようです。
 
 https://github.com/aralroca/next-translate-plugin/blob/67e728a9d2881de3d4ccc15f40ecf9f89899415a/src/templateAppDir.ts
 
-この実装方法では Webpack から Turbopack への移行の障害にもなってしまいそうなので、個人的には next-intl の方が将来性のあるライブラリなのかなとは思います。Next.js でのサポートが改善されるのを期待しつつ、今度どこかで使う機会があれば試してみたいと思います。
+この実装方法では Webpack から Turbopack への移行の障害にもなってしまいそうなので、個人的にはライブラリを積極的に使いたくないな〜と思いました。
+
+ということで、結果的にはこの i18n 対応の大変さや開発サーバーでのページの読み込みの遅さなどが気になって、App Router への移行の実装をまだ main ブランチにはマージしていません。Next.js 側での i18n サポートの改善に期待しつつ、しばらくはライブラリを利用しないで実装するのが良さそうだと思います。
