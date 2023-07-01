@@ -3,7 +3,7 @@ title: "Pages Router と App Router での i18n 対応の違い"
 emoji: "🌐"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["react", "nextjs", "i18n"]
-published: false
+published: true
 publication_name: "cybozu_frontend"
 ---
 
