@@ -80,11 +80,11 @@ module.exports = {
 
 まず、Oxc はスコープを JS/TS に絞っているので、個々のフレームワークを含むスコープ外の対応に関してはコミュニティーで実装が進んでいく必要があります。この場合、コミュニティーの形成が非常に重要になりますが、Twitter を見ている限り Boschen さんはこの点が非常に上手だと感じます。
 
-具体的には、次に実装する機能を Twitter の投票機能を使って決めたり[^3]、リリースを頻繁に行って開発の勢いを見せたりしています。また、Evan You さんからコメントをもらった後は Vue 関連の人と積極的にコミュニケーション取ったり、プラグインや TS の type checker 周りでのコラボレーションも非常に積極的です[^4] [^5]。
+具体的には、次に実装する機能を Twitter の投票機能を使って決めたり[^4]、リリースを頻繁に行って開発の勢いを見せたりしています。また、Evan You さんからコメントをもらった後は Vue 関連の人と積極的にコミュニケーション取ったり、プラグインや TS の type checker 周りでのコラボレーションも非常に積極的です[^5] [^6]。
 
-[^3]: https://twitter.com/boshen_c/status/1670662562634158082?s=20
-[^4]: https://twitter.com/boshen_c/status/1671000640645120001?s=20
-[^5]: https://twitter.com/kaleidawave/status/1672210943533633543?s=20
+[^4]: https://twitter.com/boshen_c/status/1670662562634158082?s=20
+[^5]: https://twitter.com/boshen_c/status/1671000640645120001?s=20
+[^6]: https://twitter.com/kaleidawave/status/1672210943533633543?s=20
 
 次に、ESLint からの移行パスについてですが、こちらに関してはつい先日 Oxc が linter のロードマップを公開しました。
 
@@ -117,12 +117,12 @@ https://github.com/rome/tools/milestone/11
 
 https://github.com/parcel-bundler/lightningcss
 
-Oxc に関しては、JS/TS にフォーカスしながら色々なツールチェーンの実装をしていき、直近は linter の実装に集中しています。個人的には、SWC で苦労しているのを鑑みるとまずは JS/TS のツールチェーンを統一してみたい気持ちが強いので、引き続き注目しつつコントリビュートもしていきたいです。
+Oxc に関しては、JS/TS にフォーカスしながら色々なツールチェーンの実装をしていき、直近は linter の実装に集中しています。個人的には、JS/TS のツールチェーンに一番興味があり、それらを統一していけるような活動をしたいので、Oxc についても引き続き注目しつつコントリビュートもしていきたいです。
 
 現在 Turborepo の開発をしており、以前は Rome にもこのトリビュートしていた Nicholas さんは、Twiiter で次のような[コメント](https://twitter.com/NicholasLYang/status/1642330243942809600?s=20)をしていました。
 
 > Maybe this is naive, but I still think we haven't made a good enough parser framework. I want something that has good error messages, a high fidelity CST, an AST facade, decent recovery, and compiles down to multiple languages (Rust, C, JS)
 
-Rome が全ての言語をサポートしていくというよりは、Rome でのベストプラクティス部分を切り出して、ツールチェーンを作成するためのより汎用的なフレームワークを提供するのは面白いアイデアだなとは思いました。そうすることで、 Lightning CSS のような動きもコミュニティで起きやすくなるかもしれません。次のブログの話は、自分の知らない視点が多く面白かったです。
+Rome が全ての言語をサポートしていくというよりは、Rome でのベストプラクティス部分を切り出して、特定の言語のツールチェーンを作成するための汎用的なフレームワークを提供するのは面白いアイデアだなとは思いました。そうすることで、 Lightning CSS のような動きもコミュニティで起きやすくなるかもしれません。次のブログの話は、自分の知らない視点が多く面白かったです。
 
 https://uptointerpretation.com/posts/tooling-for-tooling/
