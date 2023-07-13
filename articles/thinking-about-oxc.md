@@ -119,7 +119,9 @@ https://github.com/parcel-bundler/lightningcss
 
 Oxc に関しては、JS/TS にフォーカスしながら色々なツールチェーンの実装をしていき、直近は linter や minifier の実装に集中しています。個人的には、JS/TS のツールチェーンに一番興味があり、それらを統一していけるような活動をしたいので、Oxc についても引き続き注目しつつコントリビュートもしていきたいです。
 
-現在 Turborepo の開発をしており、以前は Rome にもこのトリビュートしていた Nicholas さんは、Twiiter で次のような[コメント](https://twitter.com/NicholasLYang/status/1642330243942809600?s=20)をしていました。
+現在 Turborepo の開発をしており、以前は Rome にもこのトリビュートしていた Nicholas さんは、Twiiter で次のようなコメントをしていました。
+
+[^8]: https://twitter.com/NicholasLYang/status/1642330243942809600?s=20
 
 > Maybe this is naive, but I still think we haven't made a good enough parser framework. I want something that has good error messages, a high fidelity CST, an AST facade, decent recovery, and compiles down to multiple languages (Rust, C, JS)
 
