@@ -30,7 +30,7 @@ Rome は、近年の Web 開発に必要なツールチェーンの設定の多�
 
 > Provide the basic building blocks for creating your own tools by having good API designs
 
-[^1]: https://github.com/Boshen/oxc/tree/v0.1.1 の README の Goals のセクションに書いてあります。
+[^1]: https://github.com/Boshen/oxc/tree/v0.1.1 を見るとわかりますが、以前の README の Goals に書いてありました。
 
 ## Rome の現状
 
