@@ -3,7 +3,7 @@ title: "Rome の contributor からみた Oxc の印象"
 emoji: "🦀"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["JavaScript", "lint", "formatter", "rome"]
-published: false
+published: true
 publication_name: "cybozu_frontend"
 ---
 
