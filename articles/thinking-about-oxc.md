@@ -93,8 +93,8 @@ https://github.com/Boshen/oxc/issues/481
 このロードマップによると、ESLint と完全に互換性を保った移行は不可能なので、次の方針で linter を実装していくようです。
 
 - コードの correctness のみにフォーカスしてルールを実装する
-  - bike-shedding になりがちな スタイルや慣習に関するルールは提供しない
-  - 有名な 10 個ほどのプラグインのレコメンドルールも実装する
+  - bike-shedding になりがちなスタイルや convention に関するルールは提供しない
+  - よく使われている 10 個ほどの ESLint プラグインの recommended ルールを対象にする
 - プラグインは DSL として GraphQL のサブセットを利用する
 
 Rome の開発者としては、プラグインを Rust ではなく GraphQL like な DSL で提供するところに注目しています。
