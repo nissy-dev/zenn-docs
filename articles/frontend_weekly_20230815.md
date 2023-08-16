@@ -27,7 +27,7 @@ Vercel による React Server Components についての解説記事です。RSC
 
 https://bun.sh/1.0
 
-Bun の 1.0 のリリースが 来月の 9 月 8 日に予定されています。ここ最近のリリースでも様々な開発が進んでいたので、どんな発表になるのか楽しみです！
+Bun 1.0 のリリースが 来月の 9 月 8 日に予定されています。ここ最近のリリースでも様々な開発が進んでいたので、どんな発表になるのか楽しみです！
 
 ## Astro 2.10: Persistent State in View Transitions
 
@@ -81,7 +81,7 @@ esbuild の 0.19 のリリースです。変数名を含む dynamic import を�
 
 https://blog.isquaredsoftware.com/2023/08/esm-modernization-lessons/
 
-Redux の開発者 [Mark Erikson さん](https://github.com/markerikson)が経験した、いろんなツールで動くようにライブラリを開発を動かすことの難しさについて書かれている記事です。CJS と ESM の問題にとどまらず、TypeScript、Webpack v4 なども考慮する必要があり、かなりの時間を費やしたということが書かれています。さらに、Next.js の React Server Components はさらに複雑性を持ち込もうとする動きもあり、その対応に不満があったことにも触れられています。
+Redux の開発者 [Mark Erikson さん](https://github.com/markerikson)が経験した、いろんなツールで動くようにライブラリを開発を動かすことの難しさについて書かれている記事です。CJS と ESM の問題にとどまらず、TypeScript、Webpack v4 なども考慮する必要があり、かなりの時間を費やしたということが書かれています。Next.js の React Server Components はさらに複雑性を持ち込もうとする動きもあり、その対応に不満があったことにも触れられています。
 
 ## Vue.js エコシステム動向 2023
 
@@ -99,13 +99,13 @@ Vite のオンラインカンファレンスが、10 月の 5 〜 6 日にかけ
 
 https://blog.stackblitz.com/posts/bringing-sharp-to-wasm-and-webcontainers/
 
-ブラウザで Node.js を直接実行できる WebContainers において、画像変換ライブラリの [sharp](https://sharp.pixelplumbing.com/) が利用できるようになったという記事です。記事では、sharp を WebAssembly に移植する手順やその際に遭遇した問題点などについて詳しく書かれています。
+ブラウザで Node.js を直接実行できる WebContainers において、画像変換ライブラリの [sharp](https://sharp.pixelplumbing.com/) が利用できるようになったという記事です。sharp を WebAssembly に移植する手順やその際に遭遇した問題点などについて詳しく書かれています。
 
 ## An Introduction to htmx, the HTML-focused Dynamic UI Library
 
 https://www.sitepoint.com/htmx-introduction/
 
-HTML からアクセスできる機能を活用しながら動的な UI を構築できる htmx を紹介している記事です。
+HTML で利用できる機能を活用しながら動的な UI を構築できる htmx を紹介している記事です。
 
 # あとがき
 
