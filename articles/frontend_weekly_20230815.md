@@ -1,5 +1,5 @@
 ---
-title: "Bun 1.0 のリリースが来月に予定されているなど: Cybozu Frontend Weekly (2023/08/15号)"
+title: "Bun 1.0 がリリース予定など:: Cybozu Frontend Weekly (2023/08/15号)"
 emoji: "🎆" # お好きな絵文字を
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["CybozuFrontendWeekly", "frontend"]
@@ -63,13 +63,13 @@ https://github.com/orogene/orogene
 
 https://github.com/fabian-hiller/valibot/issues/73
 
-valibot と zod のパフォーマンスについて、様々なランタイムでベンチマークを取った issue が作成されました。この issue をきっかけに、valibot の作者はパフォーマンスの改善にいくつか着手しているようです。
+Valibot と Zod のパフォーマンスについて、様々なランタイムでベンチマークを取った issue が作成されました。この issue をきっかけに、Valibot の作者はパフォーマンスの改善にいくつか着手しているようです。
 
 ## react-hook-form が Valibot に対応、バンドルサイズが 92%削減
 
 https://zenn.dev/hayato94087/articles/f76c878bc97d65
 
-React Hook Form の resolvers が valibot に対応し、バンドルサイズが非常に小さくなりました。
+React Hook Form の resolvers が Valibot に対応し、Zod を使った場合と比べてバンドルサイズが非常に小さくなりました。
 
 ## esbuild 0.19
 
@@ -81,7 +81,7 @@ esbuild の 0.19 のリリースです。変数名を含む dynamic import を�
 
 https://blog.isquaredsoftware.com/2023/08/esm-modernization-lessons/
 
-Redux の開発者 [Mark Erikson さん](https://github.com/markerikson)が経験した、いろんなツールで動くようにライブラリを開発を動かすことの難しさについて書かれている記事です。CJS と ESM の問題にとどまらず、TypeScript、Webpack v4 なども考慮する必要があり、かなりの時間を費やしたということが書かれています。さらに、Next.js の React Server Components はさらに複雑性を持ち込もうとしており、不満があることにも触れられています。
+Redux の開発者 [Mark Erikson さん](https://github.com/markerikson)が経験した、いろんなツールで動くようにライブラリを開発を動かすことの難しさについて書かれている記事です。CJS と ESM の問題にとどまらず、TypeScript、Webpack v4 なども考慮する必要があり、かなりの時間を費やしたということが書かれています。さらに、Next.js の React Server Components はさらに複雑性を持ち込もうとする動きもあり、その対応に不満があったことにも触れられています。
 
 ## Vue.js エコシステム動向 2023
 
