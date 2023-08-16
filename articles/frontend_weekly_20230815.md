@@ -1,5 +1,5 @@
 ---
-title: "Vercel による React Server Components の解説など: Cybozu Frontend Weekly (2023/08/15号)"
+title: "Bun 1.0 のリリースが来月に予定されているなど: Cybozu Frontend Weekly (2023/08/15号)"
 emoji: "🎆" # お好きな絵文字を
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["CybozuFrontendWeekly", "frontend"]
