@@ -3,7 +3,7 @@ title: "Bun 1.0 がリリース予定など:: Cybozu Frontend Weekly (2023/08/15
 emoji: "🎆" # お好きな絵文字を
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["CybozuFrontendWeekly", "frontend"]
-published: false
+published: true
 publication_name: "cybozu_frontend"
 ---
 
