@@ -47,7 +47,7 @@ Vercel がテキストのプロンプトから UI を生成するサービスを
 
 https://web.dev/interop-2024-proposals/
 
-Interop 2024 の提案を 9/14〜10/5 の期間で募集中しています。ブラウザ間の互換性向上の取り組みを誰でも提案できるので、興味のある人は提案してみてはいかかでしょうか。
+Interop 2024 の提案を 9/14〜10/5 の期間で募集しています。ブラウザ間の互換性向上の取り組みを誰でも提案できるので、興味のある人は提案してみてはいかかでしょうか。
 
 ## Next.js Conf
 
@@ -71,7 +71,7 @@ Safari 17.0 に入った WebKit の新しい機能の紹介記事です。search
 
 https://remix.run/blog/remix-v2
 
-Remix の v2 が公開されました。このブログでは v2 で入る機能を簡単に紹介しつつ、React Server Component に対する今後の対応方針について記述されています。
+Remix の v2 が公開されました。このブログでは v2 で入る機能を簡単に紹介しつつ、React Server Components に対する今後の対応方針について記述されています。
 
 ## TypeScript Origins: The Documentary
 
@@ -83,7 +83,7 @@ TypeScript に関するドキュメンタリー動画が公開されました！
 
 https://www.reddit.com/r/reactjs/comments/16nnh4z/comment/k1jbr4t/
 
-React Forgot の現状について、React コアチームの方からのコメントです。React Forget を設計する上での難しいポイントの１つとして、エイリアス解析を取り上げて解説しています。
+React Forget の現状について、React コアチームの方からのコメントです。React Forget を設計する上での難しいポイントの１つとして、エイリアス解析を取り上げて解説しています。
 
 ## Deno vs. Bun vs. Node.js: A Feature Comparison
 
@@ -119,7 +119,7 @@ State of JavaScript や State of CSS に続いて、今年は State of HTML も�
 
 https://developers-jp.googleblog.com/2023/09/budoux-adobe.html
 
-読みやすい改行を実現するための BudouX というライブラリの紹介記事です。Chrome 119 以降では、`lang="ja"` かつ `word-break: auto-phrase` と指定された要素は BudouX によって折り返されるようになります。
+読みやすい改行を実現するための BudouX というライブラリの紹介記事です。Chrome 119 以降では、`lang="ja"` かつスタイルシートで `word-break: auto-phrase` と指定された要素は BudouX によって折り返されるようになります。
 
 余談ですが、BudouX は Frontend Expert チームのブログにも使っています！
 
