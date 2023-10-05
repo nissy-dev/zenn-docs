@@ -2,7 +2,7 @@
 title: "Biome と ESLint の lint ルールの互換性"
 emoji: "⚙️"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["JavaScript", "TypeScript", "lint", "formatter", "Biome", "ESLint"]
+topics: ["JavaScript", "TypeScript", "lint", "Biome", "ESLint"]
 published: false
 publication_name: "cybozu_frontend"
 ---
@@ -27,82 +27,211 @@ ESLint から Biome への移行を考える際の参考にしてもらえれば
 
 https://github.com/biomejs/biome/discussions/3
 
+## まとめ
+
+対応表がずらっと並ぶので、まとめを先に書いておきます！
+
+- ESLint でよく利用されている recommended ルールの 8 割くらいは Biome でも実装されています
+  - [exhaustive-deps] などの hooks 関連のルールも実装されています
+- Biome では linter と一緒に import の sort 機能も含む formatter も利用できます
+  - `prettier` や `eslint-plugin-import` などをインストールする必要はありません
+
+ESLint のルールとの互換性を意識した設定は次のようになります。
+
+```json
+{
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      // recommended を true にした上で、つぎの設定が必要になる
+      "a11y": {
+        "noAccessKey": "error",
+        "useHeadingContent": "error"
+      },
+      "correctness": {
+        "noUndeclaredVariables": "error",
+        "noUnusedVariables": "error"
+      },
+      "style": {
+        "noNamespace": "error"
+      },
+      "nursery": {
+        "noEmptyCharacterClassInRegex": "error",
+        "noFallthroughSwitchClause": "error",
+        "noMisleadingInstantiator": "error",
+        "useAsConstAssertion": "error",
+        "useExhaustiveDependencies": "error",
+        "useHookAtTopLevel": "error"
+      }
+    }
+  }
+}
+```
+
 ## ESLint recommended
 
-|              ESlint recommended |                       Biome |
-| ------------------------------: | --------------------------: |
-|             [constructor-super] | [noInvalidConstructorSuper] |
-|                 [for-direction] |      [useValidForDirection] |
-|                 [getter-return] |           [useGetterReturn] |
-|     [no-async-promise-executor] | [noInvalidConstructorSuper] |
-|               [no-class-assign] | [noInvalidConstructorSuper] |
-|           [no-compare-neg-zero] | [noInvalidConstructorSuper] |
-|                [no-cond-assign] | [noInvalidConstructorSuper] |
-|               [no-const-assign] | [noInvalidConstructorSuper] |
-|         [no-constant-condition] | [noInvalidConstructorSuper] |
-|              [no-control-regex] | [noInvalidConstructorSuper] |
-|                   [no-debugger] | [noInvalidConstructorSuper] |
-|                  [no-dupe-keys] | [noInvalidConstructorSuper] |
-|             [no-duplicate-case] | [noInvalidConstructorSuper] |
-|      [no-empty-character-class] | [noInvalidConstructorSuper] |
-|                  [no-ex-assign] | [noInvalidConstructorSuper] |
-|                [no-fallthrough] | [noInvalidConstructorSuper] |
-|                [no-func-assign] | [noInvalidConstructorSuper] |
-|              [no-import-assign] | [noInvalidConstructorSuper] |
-|         [no-inner-declarations] | [noInvalidConstructorSuper] |
-|             [no-invalid-regexp] | [noInvalidConstructorSuper] |
-|       [no-irregular-whitespace] | [noInvalidConstructorSuper] |
-|          [no-loss-of-precision] | [noInvalidConstructorSuper] |
-| [no-misleading-character-class] | [noInvalidConstructorSuper] |
-|                 [no-new-symbol] | [noInvalidConstructorSuper] |
-|                  [no-obj-calls] | [noInvalidConstructorSuper] |
-|         [no-prototype-builtins] | [noInvalidConstructorSuper] |
-|                [no-self-assign] | [noInvalidConstructorSuper] |
-|              [no-setter-return] | [noInvalidConstructorSuper] |
-|              [no-sparse-arrays] | [noInvalidConstructorSuper] |
-|          [no-this-before-super] | [noInvalidConstructorSuper] |
-|                      [no-undef] | [noInvalidConstructorSuper] |
-|       [no-unexpected-multiline] | [noInvalidConstructorSuper] |
-|                [no-unreachable] | [noInvalidConstructorSuper] |
-|             [no-unsafe-finally] | [noInvalidConstructorSuper] |
-|            [no-unsafe-negation] | [noInvalidConstructorSuper] |
-|   [no-unsafe-optional-chaining] | [noInvalidConstructorSuper] |
-|                [no-unused-vars] | [noInvalidConstructorSuper] |
-|      [no-useless-backreference] | [noInvalidConstructorSuper] |
-|                     [use-isnan] | [noInvalidConstructorSuper] |
-|                  [valid-typeof] | [noInvalidConstructorSuper] |
-|          [no-case-declarations] | [noInvalidConstructorSuper] |
-|                 [no-delete-var] | [noInvalidConstructorSuper] |
-|                      [no-empty] | [noInvalidConstructorSuper] |
-|         [no-extra-boolean-cast] | [noInvalidConstructorSuper] |
-|                 [no-extra-semi] | [noInvalidConstructorSuper] |
-|              [no-global-assign] | [noInvalidConstructorSuper] |
-|    [no-nonoctal-decimal-escape] | [noInvalidConstructorSuper] |
-|                      [no-octal] | [noInvalidConstructorSuper] |
-|                  [no-redeclare] | [noInvalidConstructorSuper] |
-|               [no-regex-spaces] | [noInvalidConstructorSuper] |
-|              [no-unused-labels] | [noInvalidConstructorSuper] |
-|              [no-useless-catch] | [noInvalidConstructorSuper] |
-|             [no-useless-escape] | [noInvalidConstructorSuper] |
-|                       [no-with] | [noInvalidConstructorSuper] |
-|                 [require-yield] | [noInvalidConstructorSuper] |
-|       [no-mixed-space-and-tabs] | [noInvalidConstructorSuper] |
+[no-mixed-spaces-and-tabs] などのスタイルに関するルールを除いた対応表は次のようになります。🚧 になっているルールは、今後実装される予定があります。
+
+|              ESlint recommended |                                         Biome | recommended |
+| ------------------------------: | --------------------------------------------: | ----------- |
+|             [constructor-super] |                   [noInvalidConstructorSuper] | ✅          |
+|                 [for-direction] |                        [useValidForDirection] | ✅          |
+|                 [getter-return] |                             [useGetterReturn] | ✅          |
+|     [no-async-promise-executor] |                      [noAsyncPromiseExecutor] | ✅          |
+|          [no-case-declarations] |                        [noSwitchDeclarations] | ✅          |
+|               [no-class-assign] |                               [noClassAssign] | ✅          |
+|           [no-compare-neg-zero] |                            [noCompareNegZero] | ✅          |
+|                [no-cond-assign] |                       [noAssignInExpressions] | ✅          |
+|               [no-const-assign] |                               [noConstAssign] | ✅          |
+|         [no-constant-condition] |                         [noConstantCondition] | ✅          |
+|              [no-control-regex] |                  [noControlCharactersInRegex] | ✅          |
+|                   [no-debugger] |                                  [noDebugger] | ✅          |
+|                 [no-delete-var] |                                    [noDelete] | ✅          |
+|                  [no-dupe-args] |                       [noDuplicateParameters] | ✅          |
+|         [no-dupe-class-members] |                     [noDuplicateClassMembers] | ✅          |
+|               [no-dupe-else-if] |                                            🚧 |             |
+|                  [no-dupe-keys] |                       [noDuplicateObjectKeys] | ✅          |
+|             [no-duplicate-case] |                             [noDuplicateCase] | ✅          |
+|      [no-empty-character-class] |                [noEmptyCharacterClassInRegex] |             |
+|                      [no-empty] |                                            🚧 |             |
+|              [no-empty-pattern] |                              [noEmptyPattern] | ✅          |
+|                  [no-ex-assign] |                               [noCatchAssign] | ✅          |
+|         [no-extra-boolean-cast] |                          [noExtraBooleanCast] | ✅          |
+|                [no-fallthrough] |                   [noFallthroughSwitchClause] |             |
+|                [no-func-assign] |                            [noFunctionAssign] | ✅          |
+|              [no-global-assign] |                                               |             |
+|              [no-import-assign] |                              [noImportAssign] | ✅          |
+|         [no-inner-declarations] |                         [noInnerDeclarations] | ✅          |
+|             [no-invalid-regexp] |                                               |             |
+|       [no-irregular-whitespace] |                                               |             |
+|          [no-loss-of-precision] |                             [noPrecisionLoss] | ✅          |
+| [no-misleading-character-class] |                                            🚧 |             |
+|                 [no-new-symbol] |                                 [noNewSymbol] | ✅          |
+|    [no-nonoctal-decimal-escape] |                     [noNonoctalDecimalEscape] | ✅          |
+|                  [no-obj-calls] |                         [noGlobalObjectCalls] | ✅          |
+|                      [no-octal] |                                               |             |
+|         [no-prototype-builtins] |                         [noPrototypeBuiltins] | ✅          |
+|                  [no-redeclare] |                                 [noRedeclare] | ✅          |
+|               [no-regex-spaces] | [noMultipleSpacesInRegularExpressionLiterals] | ✅          |
+|                [no-self-assign] |                                [noSelfAssign] | ✅          |
+|              [no-setter-return] |                              [noSetterReturn] | ✅          |
+|    [no-shadow-restricted-names] |                     [noShadowRestrictedNames] | ✅          |
+|              [no-sparse-arrays] |                               [noSparseArray] | ✅          |
+|          [no-this-before-super] |                          [noUnreachableSuper] | ✅          |
+|                      [no-undef] |                       [noUndeclaredVariables] | ✅          |
+|                [no-unreachable] |                               [noUnreachable] | ✅          |
+|             [no-unsafe-finally] |                             [noUnsafeFinally] | ✅          |
+|            [no-unsafe-negation] |                            [noUnsafeNegation] | ✅          |
+|   [no-unsafe-optional-chaining] |                    [noUnsafeOptionalChaining] | ✅          |
+|              [no-unused-labels] |                              [noUnusedLabels] | ✅          |
+|                [no-unused-vars] |                           [noUnusedVariables] |             |
+|      [no-useless-backreference] |                                            🚧 |             |
+|              [no-useless-catch] |                              [noUselessCatch] | ✅          |
+|                       [no-with] |                                      [noWith] | ✅          |
+|                 [require-yield] |                                    [useYield] | ✅          |
+|                     [use-isnan] |                                    [useIsNan] | ✅          |
+|                  [valid-typeof] |                              [useValidTypeof] | ✅          |
 
 ## TypeScript ESLint recommended
 
+型情報を必要しないルールとの対応表は次のようになります。**Biome では TypeScript の型情報を扱うことができないので、型情報が必要なルールについては基本的にサポートしていません。**
+
+|         TypeScript ESlint recommended |                        Biome | recommended |
+| ------------------------------------: | ---------------------------: | ----------- |
+|                      [ban-ts-comment] |                              |             |
+|                           [ban-types] |              [noBannedTypes] | ✅          |
+|            [no-duplicate-enum-values] |                              |             |
+|                     [no-explicit-any] |              [noExplicitAny] | ✅          |
+|         [no-extra-non-null-assertion] |    [noExtraNonNullAssertion] | ✅          |
+|                      [no-misused-new] |   [noMisleadingInstantiator] |             |
+|                        [no-namespace] |                [noNamespace] |             |
+| [no-non-null-asserted-optional-chain] |                              |             |
+|                       [no-this-alias] |         [noUselessThisAlias] | ✅          |
+|      [no-unnecessary-type-constraint] |                              |             |
+|       [no-unsafe-declaration-merging] | [noUnsafeDeclarationMerging] | ✅          |
+|                     [no-var-requires] |                              |             |
+|                     [prefer-as-const] |        [useAsConstAssertion] |             |
+|              [triple-slash-reference] |                              |             |
+
 ## eslint-plugin-jsx-a11y recommended
 
-## eslint-plugin-react recommended
+対応表は次のようになります。eslint-plugin-jsx-a11y は、Next.js や Remix が提供している ESLint ルールにも利用されています。
 
-## eslint-plugin-react-hooks recommended
+|                            jsx-a11y recommended |                                      Biome | recommended |
+| ----------------------------------------------: | -----------------------------------------: | ----------- |
+|                                      [alt-text] |                               [useAltText] | ✅          |
+|                            [anchor-has-content] |                         [useAnchorContent] | ✅          |
+|                               [anchor-is-valid] |                           [useValidAnchor] | ✅          |
+|            [aria-activedescendant-has-tabindex] |                                            |             |
+|                                    [aria-props] |                        [useValidAriaProps] | ✅          |
+|                                [aria-proptypes] |                                            |             |
+|                                     [aria-role] |                                            |             |
+|                     [aria-unsupported-elements] |                [noAriaUnsupportedElements] | ✅          |
+|                            [autocomplete-valid] |                                            |             |
+|                  [click-events-have-key-events] |                    [useKeyWithClickEvents] | ✅          |
+|                           [heading-has-content] |                        [useHeadingContent] |             |
+|                                 [html-has-lang] |                              [useHtmlLang] | ✅          |
+|                              [iframe-has-title] |                           [useIframeTitle] | ✅          |
+|                             [img-redundant-alt] |                           [noRedundantAlt] | ✅          |
+|                    [interactive-supports-focus] |                                            |             |
+|                  [label-has-associated-control] |                                            |             |
+|                             [media-has-caption] |                          [useMediaCaption] | ✅          |
+|                  [mouse-events-have-key-events] |                    [useKeyWithMouseEvents] | ✅          |
+|                                 [no-access-key] |                              [noAccessKey] |             |
+|                                  [no-autofocus] |                              [noAutofocus] | ✅          |
+|                       [no-distracting-elements] |                    [noDistractingElements] | ✅          |
+| [no-interactive-element-to-noninteractive-role] |                                            |             |
+|        [no-noninteractive-element-interactions] |                                            |             |
+| [no-noninteractive-element-to-interactive-role] | [noNoninteractiveElementToInteractiveRole] | ✅          |
+|                    [no-noninteractive-tabindex] |                 [noNoninteractiveTabindex] | ✅          |
+|                            [no-redundant-roles] |                         [noRedundantRoles] | ✅          |
+|                [no-static-element-interactions] |                                            |             |
+|                  [role-has-required-aria-props] |                      [useAriaPropsForRole] | ✅          |
+|                      [role-supports-aria-props] |                                            |             |
+|                                         [scope] |                            [noHeaderScope] | ✅          |
+|                          [tabindex-no-positive] |                       [noPositiveTabindex] | ✅          |
+
+## eslint-plugin-react/react-hooks recommended
+
+eslint-plugin-react の recommended ルールの中には、hooks が登場する以前のクラスコンポーネントなどに関連する古いルールも多く含まれています。古いルールを除いた対応表は次のようになります。
+
+|          react recommended |                                   Biome | recommended |
+| -------------------------: | --------------------------------------: | ----------- |
+|                  [jsx-key] |                                         |             |
+| [jsx-no-comment-textnodes] |                         [noCommentText] | ✅          |
+|   [jsx-no-duplicate-props] |                   [noDuplicateJsxProps] | ✅          |
+|      [jsx-no-target-blank] |                         [noBlankTarget] | ✅          |
+|             [jsx-no-undef] |                 [noUndeclaredVariables] |             |
+|            [jsx-uses-vars] |                     [noUnusedVariables] |             |
+|         [no-children-prop] |                        [noChildrenProp] | ✅          |
+|  [no-danger-with-children] | [noDangerouslySetInnerHtmlWithChildren] | ✅          |
+
+| react hooks recommended |                       Biome | recommended |
+| ----------------------: | --------------------------: | ----------- |
+|       [exhaustive-deps] | [useExhaustiveDependencies] |             |
+|        [rules-of-hooks] |         [useHookAtTopLevel] |             |
+
+## 最後に
+
+Biome の discussion の投稿を元に、ESLint 関連の recommended ルールにフォーカスした対応表を作ってみました。コントリビューターとしては、思ったより a11y のルールの実装が足りてなかったことに気づけてよかったです。
+
+ちなみに、Biome が対応してないルールの中には、parser や formatter などで部分的に対応がされているものがあります。例えば [no-octal] のケースでは、パーサーがエラーを報告し、エディタで確認することができます。
+
+https://biomejs.dev/playground/?indentStyle=space&quoteStyle=single&trailingComma=none&code=dgBhAHIAIABuAHUAbQAgAD0AIAAwADcAMQA7AA%3D%3D
+
+ここで紹介したルール以外には、 ESLint では扱うことができない control flow graph を使ったルールなども実装されています。Control flow graph とは、プログラムの制御フローをグラフにしたもので、
+
+また、Biome は linter だけではなく import 文の sort なども含む formatter の機能も使えるので、formatter や linter の設定で楽をしたい人は是非使ってみてもらえるとよいと思います。
+
+Biome の Discord に日本語のチャンネルも作ってみたので、Biome について質問したい方がいれば次のリンクからでもお待ちしています。
+
+https://discord.com/channels/1132231889290285117/1150433265308676097
 
 <!-- ESLint rules -->
 
+[no-mixed-spaces-and-tabs]: https://eslint.org/docs/latest/rules/no-mixed-spaces-and-tabs
 [constructor-super]: https://eslint.org/docs/latest/rules/constructor-super/
-[default-case-last]: https://eslint.org/docs/latest/rules/default-case-last/
-[default-param-last]: https://eslint.org/docs/latest/rules/default-param-last/
-[dot-notation]: https://eslint.org/docs/latest/rules/dot-notation/
-[eqeqeq]: https://eslint.org/docs/latest/rules/eqeqeq/
 [for-direction]: https://eslint.org/docs/latest/rules/for-direction/
 [getter-return]: https://eslint.org/docs/latest/rules/getter-return/
 [no-async-promise-executor]: https://eslint.org/docs/latest/rules/no-async-promise-executor/
@@ -110,10 +239,8 @@ https://github.com/biomejs/biome/discussions/3
 [no-class-assign]: https://eslint.org/docs/latest/rules/no-class-assign/
 [no-compare-neg-zero]: https://eslint.org/docs/latest/rules/no-compare-neg-zero/
 [no-cond-assign]: https://eslint.org/docs/latest/rules/no-cond-assign/
-[no-console]: https://eslint.org/docs/latest/rules/no-console/
 [no-const-assign]: https://eslint.org/docs/latest/rules/no-const-assign/
 [no-constant-condition]: https://eslint.org/docs/latest/rules/no-constant-condition/
-[no-constructor-return]: https://eslint.org/docs/latest/rules/no-constructor-return/
 [no-control-regex]: https://eslint.org/docs/latest/rules/no-control-regex/
 [no-debugger]: https://eslint.org/docs/latest/rules/no-debugger/
 [no-delete-var]: https://eslint.org/docs/latest/rules/no-delete-var/
@@ -122,85 +249,111 @@ https://github.com/biomejs/biome/discussions/3
 [no-dupe-else-if]: https://eslint.org/docs/latest/rules/no-dupe-else-if/
 [no-dupe-keys]: https://eslint.org/docs/latest/rules/no-dupe-keys/
 [no-duplicate-case]: https://eslint.org/docs/latest/rules/no-duplicate-case/
-[no-else-return]: https://eslint.org/docs/latest/rules/no-else-return/
 [no-empty-character-class]: https://eslint.org/docs/latest/rules/no-empty-character-class/
 [no-empty-pattern]: https://eslint.org/docs/latest/rules/no-empty-pattern/
-[no-empty-static-block]: https://eslint.org/docs/latest/rules/no-empty-static-block/
 [no-empty]: https://eslint.org/docs/latest/rules/no-empty/
-[no-eval]: https://eslint.org/docs/latest/rules/no-eval/
 [no-ex-assign]: https://eslint.org/docs/latest/rules/no-ex-assign/
 [no-extra-boolean-cast]: https://eslint.org/docs/latest/rules/no-extra-boolean-cast/
-[no-extra-label]: https://eslint.org/docs/latest/rules/no-extra-label/
 [no-fallthrough]: https://eslint.org/docs/latest/rules/no-fallthrough/
 [no-func-assign]: https://eslint.org/docs/latest/rules/no-func-assign/
 [no-global-assign]: https://eslint.org/docs/latest/rules/no-global-assign/
-[no-implicit-coercion]: https://eslint.org/docs/latest/rules/no-implicit-coercion/
 [no-import-assign]: https://eslint.org/docs/latest/rules/no-import-assign/
 [no-inner-declarations]: https://eslint.org/docs/latest/rules/no-inner-declarations/
 [no-irregular-whitespace]: https://eslint.org/docs/latest/rules/no-irregular-whitespace/
-[no-label-var]: https://eslint.org/docs/latest/rules/no-label-var/
-[no-labels]: https://eslint.org/docs/latest/rules/no-labels/
-[no-lone-blocks]: https://eslint.org/docs/latest/rules/no-lone-blocks/
-[no-lonely-if]: https://eslint.org/docs/latest/rules/no-lonely-if/
 [no-loss-of-precision]: https://eslint.org/docs/latest/rules/no-loss-of-precision/
 [no-misleading-character-class]: https://eslint.org/docs/latest/rules/no-misleading-character-class/
-[no-negated-condition]: https://eslint.org/docs/latest/rules/no-negated-condition/
-[no-new-native-nonconstructor]: https://eslint.org/docs/latest/rules/no-new-native-nonconstructor/
 [no-new-symbol]: https://eslint.org/docs/latest/rules/no-new-symbol/
-[no-new-wrappers]: https://eslint.org/docs/latest/rules/no-new-wrappers/
 [no-nonoctal-decimal-escape]: https://eslint.org/docs/latest/rules/no-nonoctal-decimal-escape/
 [no-obj-calls]: https://eslint.org/docs/latest/rules/no-obj-calls/
-[no-param-reassign]: https://eslint.org/docs/latest/rules/no-param-reassign/
 [no-prototype-builtins]: https://eslint.org/docs/latest/rules/no-prototype-builtins/
-[no-restricted-globals]: https://eslint.org/docs/latest/rules/no-restricted-globals/
 [no-redeclare]: https://eslint.org/docs/latest/rules/no-redeclare/
 [no-regex-spaces]: https://eslint.org/docs/latest/rules/no-regex-spaces/
 [no-self-assign]: https://eslint.org/docs/latest/rules/no-self-assign/
-[no-self-compare]: https://eslint.org/docs/latest/rules/no-self-compare/
-[no-sequences]: https://eslint.org/docs/latest/rules/no-sequences/
 [no-setter-return]: https://eslint.org/docs/latest/rules/no-setter-return/
 [no-shadow-restricted-names]: https://eslint.org/docs/latest/rules/no-shadow-restricted-names/
-[no-sparse-array]: https://eslint.org/docs/latest/rules/no-sparse-array/
+[no-sparse-arrays]: https://eslint.org/docs/latest/rules/no-sparse-arrays/
 [no-this-before-super]: https://eslint.org/docs/latest/rules/no-this-before-super/
-[no-undef-init]: https://eslint.org/docs/latest/rules/no-undef-init/
 [no-undef]: https://eslint.org/docs/latest/rules/no-undef/
-[no-unneeded-ternary]: https://eslint.org/docs/latest/rules/no-unneeded-ternary/
 [no-unreachable]: https://eslint.org/docs/latest/rules/no-unreachable/
 [no-unsafe-finally]: https://eslint.org/docs/latest/rules/no-unsafe-finally/
 [no-unsafe-negation]: https://eslint.org/docs/latest/rules/no-unsafe-negation/
 [no-unsafe-optional-chaining]: https://eslint.org/docs/latest/rules/no-unsafe-optional-chaining/
 [no-unused-labels]: https://eslint.org/docs/latest/rules/no-unused-labels/
-[no-unused-private-class-members]: https://eslint.org/docs/latest/rules/no-unused-private-class-members/
 [no-unused-vars]: https://eslint.org/docs/latest/rules/no-unused-vars/
 [no-useless-backreference]: https://eslint.org/docs/latest/rules/no-useless-backreference/
-[no-useless-call]: https://eslint.org/docs/latest/rules/no-useless-call/
 [no-useless-catch]: https://eslint.org/docs/latest/rules/no-useless-catch/
-[no-useless-computed-key]: https://eslint.org/docs/latest/rules/no-useless-computed-key/
-[no-useless-constructor]: https://eslint.org/docs/latest/rules/no-useless-constructor/
 [no-useless-escape]: https://eslint.org/docs/latest/rules/no-useless-escape/
-[no-useless-rename]: https://eslint.org/docs/latest/rules/no-useless-rename/
-[no-useless-return]: https://eslint.org/docs/latest/rules/no-useless-return/
-[no-var]: https://eslint.org/docs/latest/rules/no-var/
-[no-void]: https://eslint.org/docs/latest/rules/no-void/
 [no-with]: https://eslint.org/docs/latest/rules/no-with/
-[object-shorthand]: https://eslint.org/docs/latest/rules/object-shorthand/
-[one-var]: https://eslint.org/docs/latest/rules/one-var/
-[operator-assignment]: https://eslint.org/docs/latest/rules/operator-assignment/
-[prefer-arrow-callback]: https://eslint.org/docs/latest/rules/prefer-arrow-callback/
-[prefer-const]: https://eslint.org/docs/latest/rules/prefer-const/
-[prefer-destructuring]: https://eslint.org/docs/latest/rules/prefer-destructuring/
-[prefer-exponentiation-operator]: https://eslint.org/docs/latest/rules/prefer-exponentiation-operator/
-[prefer-numeric-literals]: https://eslint.org/docs/latest/rules/prefer-numeric-literals/
-[prefer-object-has-own]: https://eslint.org/docs/latest/rules/prefer-object-has-own/
-[prefer-object-spread]: https://eslint.org/docs/latest/rules/prefer-object-spread/
-[prefer-regex-literals]: https://eslint.org/docs/latest/rules/prefer-regex-literals/
-[prefer-rest-params]: https://eslint.org/docs/latest/rules/prefer-rest-params/
-[prefer-template]: https://eslint.org/docs/latest/rules/prefer-template/
-[require-unicode-regexp]: https://eslint.org/docs/latest/rules/require-unicode-regexp
 [require-yield]: https://eslint.org/docs/latest/rules/require-yield/
 [use-isnan]: https://eslint.org/docs/latest/rules/use-isnan/
 [valid-typeof]: https://eslint.org/docs/latest/rules/valid-typeof/
-[yoda]: https://eslint.org/docs/latest/rules/yoda/
+[no-invalid-regexp]: https://eslint.org/docs/latest/rules/no-invalid-regexp
+[no-octal]: https://eslint.org/docs/latest/rules/no-octal
+[no-unexpected-multiline]: https://eslint.org/docs/latest/rules/no-unexpected-multiline
+
+<!-- TypeScript ESLint rules -->
+
+[ban-ts-comment]: https://typescript-eslint.io/rules/no-var-requires/
+[ban-types]: https://typescript-eslint.io/rules/ban-types/
+[no-duplicate-enum-values]: https://typescript-eslint.io/rules/no-duplicate-enum-values/
+[no-explicit-any]: https://typescript-eslint.io/rules/no-explicit-any/
+[no-extra-non-null-assertion]: https://typescript-eslint.io/rules/no-extra-non-null-assertion/
+[no-misused-new]: https://typescript-eslint.io/rules/no-misused-new/
+[no-namespace]: https://typescript-eslint.io/rules/no-namespace/
+[no-non-null-asserted-optional-chain]: https://typescript-eslint.io/rules/no-non-null-asserted-optional-chain/
+[no-this-alias]: https://typescript-eslint.io/rules/no-this-alias/
+[no-unnecessary-type-constraint]: https://typescript-eslint.io/rules/no-unnecessary-type-constraint/
+[no-unsafe-declaration-merging]: https://typescript-eslint.io/rules/no-unsafe-declaration-merging/
+[no-var-requires]: https://typescript-eslint.io/rules/no-var-requires/
+[prefer-as-const]: https://typescript-eslint.io/rules/prefer-as-const/
+[triple-slash-reference]: https://typescript-eslint.io/rules/triple-slash-reference/
+
+<!-- eslint-plugin-jsx-a11y rules -->
+
+[alt-text]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/alt-text.md
+[anchor-has-content]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/anchor-has-content.md
+[anchor-is-valid]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/anchor-is-valid.md
+[aria-activedescendant-has-tabindex]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/aria-activedescendant-has-tabindex.md
+[aria-props]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/aria-props.md
+[aria-proptypes]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/aria-proptypes.md
+[aria-role]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/aria-role.md
+[aria-unsupported-elements]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/aria-unsupported-elements.md
+[autocomplete-valid]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/autocomplete-valid.md
+[click-events-have-key-events]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/click-events-have-key-events.md
+[heading-has-content]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/heading-has-content.md
+[html-has-lang]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/html-has-lang.md
+[iframe-has-title]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/iframe-has-title.md
+[img-redundant-alt]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/img-redundant-alt.md
+[interactive-supports-focus]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/interactive-supports-focus.md
+[label-has-associated-control]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/label-has-associated-control.md
+[media-has-caption]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/media-has-caption.md
+[mouse-events-have-key-events]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/mouse-events-have-key-events.md
+[no-access-key]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/no-access-key.md
+[no-autofocus]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/no-autofocus.md
+[no-distracting-elements]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/no-distracting-elements.md
+[no-interactive-element-to-noninteractive-role]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/no-interactive-element-to-noninteractive-role.md
+[no-noninteractive-element-interactions]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/no-noninteractive-element-interactions.md
+[no-noninteractive-element-to-interactive-role]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/no-noninteractive-element-to-interactive-role.md
+[no-noninteractive-tabindex]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/no-noninteractive-tabindex.md
+[no-redundant-roles]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/no-redundant-roles.md
+[no-static-element-interactions]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/no-static-element-interactions.md
+[role-has-required-aria-props]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/role-has-required-aria-props.md
+[role-supports-aria-props]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/role-supports-aria-props.md
+[scope]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/scope.md
+[tabindex-no-positive]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/tabindex-no-positive.md
+
+<!-- eslint-plugin-react rules -->
+
+[jsx-key]: https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-key.md
+[jsx-no-comment-textnodes]: https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-comment-textnodes.md
+[jsx-no-duplicate-props]: https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-duplicate-props.md
+[jsx-no-target-blank]: https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-target-blank.md
+[jsx-no-undef]: https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-undef.md
+[jsx-uses-vars]: https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-uses-vars.md
+[no-children-prop]: https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/no-children-prop.md
+[no-danger-with-children]: https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/no-danger-with-children.md
+[exhaustive-deps]: https://github.com/facebook/react/blob/main/packages/eslint-plugin-react-hooks/README.md
+[rules-of-hooks]: https://github.com/facebook/react/blob/main/packages/eslint-plugin-react-hooks/README.md
 
 <!-- Biome rules -->
 
