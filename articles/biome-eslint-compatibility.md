@@ -31,12 +31,12 @@ https://github.com/biomejs/biome/discussions/3
 
 対応表がずらっと並ぶので、まとめを先に書いておきます！
 
-- ESLint でよく利用されている recommended ルールの 8 割くらいは Biome でも実装されています
+- ESLint でよく利用されている recommended ルールの 8 割以上は Biome でも実装されています
   - [exhaustive-deps] などの hooks 関連のルールも実装されています
-- Biome では linter と一緒に import 文をソートする機能も含む formatter も利用できます
+- Biome では linter と一緒に [import 文をソートする機能](https://biomejs.dev/analyzer/#imports-sorting)も含む formatter も利用できます
   - `prettier` や `eslint-plugin-import` などをインストールする必要はありません
 
-ESLint のルールとの互換性を意識した設定は次のようになります。
+ESLint との互換性を意識した設定は次のようになります。
 
 ```json
 {
@@ -222,7 +222,7 @@ Biome の discussion の投稿を元に、ESLint 関連の recommended ルール
 
 https://biomejs.dev/playground/?indentStyle=space&quoteStyle=single&trailingComma=none&code=YwBvAG4AcwB0ACAAbgB1AG0AIAA9ACAAMAA3ADEAOwA%3D
 
-また、Biome は linter だけではなく import 文をソートする機能も含む formatter の機能も使えるので、formatter や linter の設定で楽をしたい人は是非使ってみてもらえるとよいと思います。
+また、Biome は linter だけではなく [import 文をソートする機能](https://biomejs.dev/analyzer/#imports-sorting)も含む formatter の機能も使えるので、formatter や linter の設定で楽をしたい人は是非使ってみてもらえるとよいと思います。
 
 Biome の Discord に日本語のチャンネルも作ってみたので、Biome について質問したい方がいれば次のリンクからでもお待ちしています。
 
