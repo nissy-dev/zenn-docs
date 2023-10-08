@@ -33,7 +33,7 @@ https://github.com/biomejs/biome/discussions/3
 
 - ESLint でよく利用されている recommended ルールの 8 割くらいは Biome でも実装されています
   - [exhaustive-deps] などの hooks 関連のルールも実装されています
-- Biome では linter と一緒に import の sort 機能も含む formatter も利用できます
+- Biome では linter と一緒に import 文をソートする機能も含む formatter も利用できます
   - `prettier` や `eslint-plugin-import` などをインストールする必要はありません
 
 ESLint のルールとの互換性を意識した設定は次のようになります。
@@ -207,7 +207,9 @@ eslint-plugin-react の recommended ルールの中には、hooks が登場す�
 |         [no-children-prop] |                        [noChildrenProp] | ✅          |
 |  [no-danger-with-children] | [noDangerouslySetInnerHtmlWithChildren] | ✅          |
 
-| react hooks recommended |                       Biome | recommended |
+eslint-plugin-react-hooks の対応表は次のようになります。
+
+| react-hooks recommended |                       Biome | recommended |
 | ----------------------: | --------------------------: | ----------- |
 |       [exhaustive-deps] | [useExhaustiveDependencies] |             |
 |        [rules-of-hooks] |         [useHookAtTopLevel] |             |
@@ -218,11 +220,9 @@ Biome の discussion の投稿を元に、ESLint 関連の recommended ルール
 
 ちなみに、Biome が対応してないルールの中には、parser や formatter などで部分的に対応がされているものがあります。例えば [no-octal] のケースでは、パーサーがエラーを報告し、エディタで確認することができます。
 
-https://biomejs.dev/playground/?indentStyle=space&quoteStyle=single&trailingComma=none&code=dgBhAHIAIABuAHUAbQAgAD0AIAAwADcAMQA7AA%3D%3D
+https://biomejs.dev/playground/?indentStyle=space&quoteStyle=single&trailingComma=none&code=YwBvAG4AcwB0ACAAbgB1AG0AIAA9ACAAMAA3ADEAOwA%3D
 
-ここで紹介したルール以外には、 ESLint では扱うことができない control flow graph を使ったルールなども実装されています。Control flow graph とは、プログラムの制御フローをグラフにしたもので、
-
-また、Biome は linter だけではなく import 文の sort なども含む formatter の機能も使えるので、formatter や linter の設定で楽をしたい人は是非使ってみてもらえるとよいと思います。
+また、Biome は linter だけではなく import 文をソートする機能も含む formatter の機能も使えるので、formatter や linter の設定で楽をしたい人は是非使ってみてもらえるとよいと思います。
 
 Biome の Discord に日本語のチャンネルも作ってみたので、Biome について質問したい方がいれば次のリンクからでもお待ちしています。
 
