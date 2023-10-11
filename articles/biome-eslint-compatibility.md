@@ -3,7 +3,7 @@ title: "Biome と ESLint の lint ルールの互換性"
 emoji: "⚙️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["JavaScript", "TypeScript", "lint", "Biome", "ESLint"]
-published: false
+published: true
 publication_name: "cybozu_frontend"
 ---
 
@@ -165,7 +165,7 @@ ESLint との互換性を意識した設定は次のようになります。
 |                               [anchor-is-valid] |                           [useValidAnchor] | ✅          |
 |            [aria-activedescendant-has-tabindex] |                                            |             |
 |                                    [aria-props] |                        [useValidAriaProps] | ✅          |
-|                                [aria-proptypes] |                                            |             |
+|                                [aria-proptypes] |                       [useValidAriaValues] | ✅          |
 |                                     [aria-role] |                                            |             |
 |                     [aria-unsupported-elements] |                [noAriaUnsupportedElements] | ✅          |
 |                            [autocomplete-valid] |                                            |             |
@@ -515,6 +515,7 @@ https://discord.com/channels/1132231889290285117/1150433265308676097
 [useTemplate]: https://biomejs.dev/linter/rules/use-template/
 [useValidAnchor]: https://biomejs.dev/linter/rules/use-valid-anchor/
 [useValidAriaProps]: https://biomejs.dev/linter/rules/use-valid-aria-props/
+[useValidAriaValues]: https://biomejs.dev/linter/rules/use-valid-aria-values/
 [useValidForDirection]: https://biomejs.dev/linter/rules/use-valid-for-direction/
 [useValidLang]: https://biomejs.dev/linter/rules/use-valid-lang/
 [useValidTypeof]: https://biomejs.dev/linter/rules/use-valid-typeof/
