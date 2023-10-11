@@ -146,13 +146,17 @@ ESLint との互換性を意識した設定は次のようになります。
 |         [no-extra-non-null-assertion] |    [noExtraNonNullAssertion] | ✅          |
 |                      [no-misused-new] |   [noMisleadingInstantiator] |             |
 |                        [no-namespace] |                [noNamespace] |             |
-| [no-non-null-asserted-optional-chain] |                              |             |
+| [no-non-null-asserted-optional-chain] |         [noNonNullAssertion] | ✅          |
 |                       [no-this-alias] |         [noUselessThisAlias] | ✅          |
-|      [no-unnecessary-type-constraint] |                              |             |
+|      [no-unnecessary-type-constraint] |    [noUselessTypeConstraint] | ✅          |
 |       [no-unsafe-declaration-merging] | [noUnsafeDeclarationMerging] | ✅          |
 |                     [no-var-requires] |                              |             |
 |                     [prefer-as-const] |        [useAsConstAssertion] |             |
 |              [triple-slash-reference] |                              |             |
+
+:::message
+[no-non-null-asserted-optional-chain] については、より strict なルールである [noNonNullAssertion] でカバーされているとみなしています。non-null assertion は多くの場合で安全ではない処理なのでこの対応でも問題ないと考えていますが、完全な対応にはなっていないことに注意してください。
+:::
 
 ## eslint-plugin-jsx-a11y recommended
 
