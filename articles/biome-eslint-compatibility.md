@@ -167,7 +167,7 @@ ESLint との互換性を意識した設定は次のようになります。
 |                                      [alt-text] |                               [useAltText] | ✅          |
 |                            [anchor-has-content] |                         [useAnchorContent] | ✅          |
 |                               [anchor-is-valid] |                           [useValidAnchor] | ✅          |
-|            [aria-activedescendant-has-tabindex] |                                            |             |
+|            [aria-activedescendant-has-tabindex] |      [useAriaActivedescendantWithTabindex] |             |
 |                                    [aria-props] |                        [useValidAriaProps] | ✅          |
 |                                [aria-proptypes] |                       [useValidAriaValues] | ✅          |
 |                                     [aria-role] |                                            |             |
@@ -185,7 +185,7 @@ ESLint との互換性を意識した設定は次のようになります。
 |                                 [no-access-key] |                              [noAccessKey] |             |
 |                                  [no-autofocus] |                              [noAutofocus] | ✅          |
 |                       [no-distracting-elements] |                    [noDistractingElements] | ✅          |
-| [no-interactive-element-to-noninteractive-role] |                                            |             |
+| [no-interactive-element-to-noninteractive-role] | [noInteractiveElementToNoninteractiveRole] |             |
 |        [no-noninteractive-element-interactions] |                                            |             |
 | [no-noninteractive-element-to-interactive-role] | [noNoninteractiveElementToInteractiveRole] | ✅          |
 |                    [no-noninteractive-tabindex] |                 [noNoninteractiveTabindex] | ✅          |
@@ -525,3 +525,5 @@ https://discord.com/channels/1132231889290285117/1150433265308676097
 [useValidTypeof]: https://biomejs.dev/linter/rules/use-valid-typeof/
 [useWhile]: https://biomejs.dev/linter/rules/use-while/
 [useYield]: https://biomejs.dev/linter/rules/use-yield/
+[useAriaActivedescendantWithTabindex]: https://biomejs.dev/linter/rules/use-aria-activedescendant-with-tabindex
+[noInteractiveElementToNoninteractiveRole]: https://biomejs.dev/linter/rules/no-interactive-element-to-noninteractive-role
