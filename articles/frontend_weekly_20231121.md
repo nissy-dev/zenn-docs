@@ -1,8 +1,7 @@
 ---
-title: "Storybook の : Cybozu Frontend Weekly (2023/11/21号)"
-emoji: "" # お好きな絵文字を
-type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["CybozuFrontendWeekly", "frontend"]
+title: "Vite 5.0 のリリースなど : Cybozu Frontend Weekly (2023/11/21号)"
+emoji: "⚡" # お好きな絵文字を
+ぜんtopics: ["CybozuFrontendWeekly", "frontend"]
 published: true
 publication_name: "cybozu_frontend"
 ---
