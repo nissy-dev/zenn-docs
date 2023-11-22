@@ -1,5 +1,5 @@
 ---
-title: "Vite 5.0 のリリースなど : Cybozu Frontend Weekly (2023/11/21号)"
+title: "Vite 5.0 のリリースなど : Cybozu Frontend Weekly (2023-11-21号)"
 emoji: "⚡" # お好きな絵文字を
 ぜんtopics: ["CybozuFrontendWeekly", "frontend"]
 published: true
@@ -12,7 +12,7 @@ publication_name: "cybozu_frontend"
 
 サイボウズでは毎週火曜日に Frontend Weekly という「1 週間の間にあったフロントエンドニュースを共有する会」を社内で開催しています。
 
-今回は、2023/11/21 の Frontend Weekly で取り上げた記事や話題を紹介します。
+今回は、2023 年 11 月 21 日 の Frontend Weekly で取り上げた記事や話題を紹介します。
 
 # 取り上げた記事・話題
 
@@ -46,7 +46,7 @@ https://blog.logrocket.com/using-css-content-visibility-boost-rendering-performa
 
 https://twitter.com/storybookjs/status/1726604084801872072
 
-GPT を使って自動で React コンポーネント の story を作成するツールの紹介ツイートです！実際のツールは次のリポジトリで公開されています。
+GPT を使って自動で React コンポーネント の story を作成するツールの紹介ポストです！実際のツールは次のリポジトリで公開されています。
 
 https://github.com/eduardconstantin/storybook-genie
 
@@ -78,7 +78,7 @@ https://deno.com/blog/subhosting
 
 https://groups.google.com/a/chromium.org/g/blink-dev/c/RG0oLYQ0f2I/m/xMSdsEAzBwAJ
 
-Chromium でのサードパーティ Cookie の段階的な廃止についての最新動向です。2024 年の １ Q には 1% のユーザーに対してテストを行い、2024 年の 3Q に正式な段階的な廃止を始める予定のようです。
+Chromium でのサードパーティ Cookie の段階的な廃止についての最新動向です。2024 年の 1Q には 1% のユーザーに対してテストを行い、2024 年の 3Q から正式に段階的な廃止を始める予定のようです。
 
 # あとがき
 
