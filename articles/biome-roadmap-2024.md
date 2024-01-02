@@ -233,9 +233,9 @@ a.reduce((acc, val) => {
 }
 ```
 
-### 新しい lint ルール
+### 新しい lint ルールを提供する
 
-次のルールが新しく追加されました。各ルールの詳細は、ドキュメントを参考にしてください。
+次のルールが新しく nursery グループに追加されました。各ルールの詳細は、ドキュメントを参考にしてください。
 
 - [useExportType](https://biomejs.dev/linter/rules/use-export-type)
 - [useFilenamingConvention](https://biomejs.dev/linter/rules/use-filenaming-convention)
