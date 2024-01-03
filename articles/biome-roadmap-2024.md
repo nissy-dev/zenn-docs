@@ -118,6 +118,13 @@ Biome のコミュニティはゆっくりと成長しており、Biome に貢�
 
 2024 年のロードマップとともに、新しいバージョンを公開します。このバージョンでは、CLI 周りの新機能や **フォーマッターの多くの修正** が含まれています。**TypeScript、JSX、および JavaScript のフォーマットにおける Prettier との互換性は、ついに 97%を超えました。**
 
+アップデートには、次のコマンドを実行してください。
+
+```shell
+npm i @biomejs/biome@latest --exact --save-dev
+npx @biomejs/biome migrate
+```
+
 ### 新機能
 
 - 変更されたファイルのみを処理する
