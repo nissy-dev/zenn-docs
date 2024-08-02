@@ -3,7 +3,7 @@ title: "2024年のロードマップ、新しいロゴとホームページの�
 emoji: "🛣️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["biome", "javascript", "linter"]
-published: false
+published: true
 publication_name: "cybozu_frontend"
 ---
 
