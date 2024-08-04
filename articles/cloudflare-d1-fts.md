@@ -94,7 +94,7 @@ CREATE VIRTUAL TABLE table_name USING fts5(column1, column2, tokenizer='trigram'
 - ascii tokenizer
   - unicode61 tokenizer をベースに、ascii 文字に関してルールを追加して分割する方法
 - porter tokenizer
-  - unicode61 tokenizer などと組み合わせて利用し、出力されたトークンを porter stemmer というアルゴリズムで正規化する方法
+  - 他の tokenizer と組み合わせて利用し、出力されたトークンを porter stemmer というアルゴリズムで正規化する方法
   - 例) running, ran などの活用形が変化しているトークンを run に統一する
 - trigram tokenizer
   - 3 文字をトークンの単位とし、文字列の先頭から 1 文字ずつ順番に分割する方法
