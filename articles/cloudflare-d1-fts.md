@@ -19,7 +19,7 @@ SQLite で構築されている [Cloudflare D1](https://developers.cloudflare.co
 
 > Export is not supported for virtual tables, including databases with virtual tables. D1 supports virtual tables for full-text search using SQLite’s FTS5 module.
 
-今回は個人ブログの検索用 API を D1 を利用して実装してみたので、その方法について書きたいと思います。
+今回は個人ブログの全文検索 API を D1 を利用して実装してみたので、その方法について書きたいと思います。
 
 ## 作成した API
 
@@ -92,7 +92,7 @@ CREATE VIRTUAL TABLE table_name USING fts5(column1, column2, tokenizer='trigram'
 - unicode61 tokenizer (デフォルト)
   - Unicode 6.1.0 で定義されているスペースや句読点 (punctuation) で分割する方法
 - ascii tokenizer
-  - unicode61 tokenizer で扱うを拡張したもの
+  - unicode61 tokenizer をベースに、ascii 文字に関してルールを追加して分割する方法
 - porter tokenizer
   - unicode61 tokenizer などと組み合わせて利用し、出力されたトークンを porter stemmer というアルゴリズムで正規化する方法
   - 例) running, ran などの活用形が変化しているトークンを run に統一する
