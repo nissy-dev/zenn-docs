@@ -1,6 +1,6 @@
 ---
 title: "Cloudflare D1 を使った日本語の全文検索を実装する"
-emoji: "🛣️"
+emoji: "🔍"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["cloudflare", "typescript", "d1", "hono"]
 published: false
@@ -238,10 +238,14 @@ app.get("/api/fts/search", async (c) => {
 
   const db = c.env.DB;
   // 2. 検索クエリにマッチしたドキュメントを fts と contents テーブルを利用して取得する
+  // ランクが高い順に最大 5件のデータを返す用意している
   const { results } = await db
     .prepare(
-      `SELECT contents.post_id as id, contents.title, contents.content FROM fts
-       JOIN contents ON contents.rowid = fts.rowid WHERE fts MATCH ?1 LIMIT 5`,
+      `SELECT contents.post_id as id, contents.title, contents.content FROM contents
+       JOIN fts ON contents.rowid = fts.rowid
+       WHERE fts MATCH ?1
+       ORDER BY rank
+       LIMIT 5`,
     )
     .bind(query)
     .all<Post>();
