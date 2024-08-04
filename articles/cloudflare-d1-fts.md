@@ -215,7 +215,7 @@ app.post(
 
 https://zenn.dev/cybozu_frontend/articles/explore-intl-segmenter
 
-検索精度のことを考えると、本当は [sudachi](https://github.com/WorksApplications/sudachi.rs) や [lindera](https://github.com/lindera-morphology/lindera) などの日本語に特化した形態素解析のツールを利用した方が良いと思うのですが、JS からこれらのツールが簡単に利用できなさそうだったので今回は見送りました。[^4]
+検索精度のことを考えると、本当は [sudachi](https://github.com/WorksApplications/sudachi.rs) や [lindera](https://github.com/lindera-morphology/lindera) などの日本語に特化した形態素解析のツールを利用した方が良いと思うのですが、JS からこれらのツールを簡単に利用できなさそうだったので今回は見送りました。[^4]
 
 [^4]: [lindera-js](https://github.com/higumachan/lindera-js) や [sudachi-wasm](https://github.com/hata6502/sudachi-wasm) などの wasm ベースのツールはあったのですが、更新があまりされていないようなので利用しませんでした。
 
@@ -275,7 +275,7 @@ curl "http://localhost:8787/api/fts/search?q=keyword"
 
 ## まとめ
 
-今回の記事では、個人ブログの検索のための API を Cloudflare Workers と D1 を利用して実装する方法を紹介しました。実装の全体を参考にしたい方は、次のコードを参考にしてもらえればと思います。
+今回の記事では、個人ブログの検索のための API を Cloudflare Workers と D1 を利用して実装する方法を紹介しました。実装の全体を確認したい方は、次のコードを参考にしてもらえればと思います。
 
 https://github.com/nissy-dev/blog/tree/7c18433e286e96dfede54e24f6ee00d033ffa02b/packages/fts
 
