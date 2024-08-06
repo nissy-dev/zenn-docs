@@ -273,6 +273,72 @@ curl "http://localhost:8787/api/fts/insert" \
 curl "http://localhost:8787/api/fts/search?q=keyword"
 ```
 
+## 追記: データ登録のエンドポイントでデータ更新もできるようにする
+
+このブログを最初に書いた時点では、記事に変更が出た場合は毎回 DB を作り直すことを想定していたのであまり考えていなかったのですが、実際のケースではデータの登録だけでなく更新もできるとよさそうです。
+
+ということで、`/api/fts/insert` のエンドポイントの実装を upsert のような挙動になるように修正してみました。修正した結果のコードを次に示します。
+
+```ts
+app.put(
+  "/api/fts/upsert",
+  async (c, next) => {
+    const auth = basicAuth({
+      username: c.env.AUTH_USERNAME,
+      password: c.env.AUTH_PASSWORD,
+    });
+    await auth(c, next);
+  },
+  async (c) => {
+    const post = await c.req.json<Post>();
+    const { id, title, content } = post;
+    const db = c.env.DB;
+
+    // contents テーブルへのデータ追加
+    await db
+      .prepare(
+        `INSERT INTO contents (post_id, title, content) VALUES (?1, ?2, ?3)
+         ON CONFLICT(post_id) DO UPDATE SET title = excluded.title, content = excluded.content;`
+      )
+      .bind(id, title, content)
+      .run();
+
+    // rowid を取得する
+    const rowId = await db
+      .prepare("SELECT id FROM contents WHERE post_id = ?1")
+      .bind(id)
+      .first<string>("id");
+    if (!rowId) {
+      return c.json({ error: "Failed to get rowid" }, 500);
+    }
+
+    // fts テーブルへのデータ追加
+    const segments = Array.from(segmenter.segment(`${title}。${content}`))
+      .filter((s) => s.isWordLike)
+      .map((s) => s.segment);
+    await db
+      .prepare("INSERT OR REPLACE INTO fts (rowid, segments) VALUES (?1, ?2)")
+      .bind(rowId, segments.join(" "))
+      .run();
+
+    c.status(204);
+    return c.body(null);
+  }
+);
+```
+
+実装の変更点としては、contents テーブルと fts テーブルへの insert 処理が upsert 処理に変わっています。SQLite では upsert 相当の処理は、次の２つの方法で実装できるようです。
+
+- `INSERT INTO ... ON CONFLICT ... DO UPDATE SET ...`
+  - すでにデータが登録されている場合は、既存のレコードを更新する
+  - [fts テーブルのような仮想テーブルには利用できない](https://www.sqlite.org/lang_upsert.html#limitations)
+- `INSERT OR REPLACE INTO ...`
+  - すでにデータが登録されている場合は、既存のレコードを削除してから新しく追加する
+
+このとき contents テーブルの更新では、fts テーブルから参照されている id カラムを変更したくないため `ON CONFLICT` を利用する方法を採用しました。一方で、fts テーブルの更新では `ON CONFLICT` を利用する方法で更新することはできないため、`REPLACE` を利用する方法を採用しています。
+
+ここまで実装してみましたが、やはり transaction の仕組みは欲しいなという気持ちになりました。[D1 は batch statements として簡易的なトランザクションの仕組みは提供してくれている](https://developers.cloudflare.com/d1/build-with-d1/d1-client-api/#batch-statements)のですが、今回のようなロジックのあるようなトランザクションは現時点で実装することができません。
+
 ## まとめ
 
 今回の記事では、個人ブログの検索のための API を Cloudflare Workers と D1 を利用して実装する方法を紹介しました。実装の全体を確認したい方は、次のコードを参考にしてもらえればと思います。
