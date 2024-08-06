@@ -3,7 +3,7 @@ title: "Cloudflare D1 を使った日本語の全文検索を実装する"
 emoji: "🔍"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["cloudflare", "typescript", "d1", "hono"]
-published: false
+published: true
 publication_name: "cybozu_frontend"
 ---
 
