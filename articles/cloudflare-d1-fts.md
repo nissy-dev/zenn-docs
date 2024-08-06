@@ -131,6 +131,8 @@ DB の準備ができたら、Hono を利用した API の実装をしていき�
 ```ts:src/index.ts
 import { Hono } from "hono";
 
+// エンドポイントの実装で利用する環境変数
+// https://hono.dev/docs/api/context#env
 type Bindings = {
   DB: D1Database;
   AUTH_USERNAME: string;
@@ -156,7 +158,7 @@ export default app;
 2. [Intl.Segmenter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter) を利用して、受け取ったデータからトークンを抽出する
 3. 作成したトークンをスペース区切りで結合し、fts テーブルに追加する
 
-ハンドラー部分の具体的なコードは次のようになりました。
+これらの処理を行う具体的なコードは、次のようになりました。
 
 ```ts:src/index.ts
 import { basicAuth } from "hono/basic-auth";
@@ -191,7 +193,7 @@ app.post(
       )
       .bind(id, title, content)
       .run();
-    // レスポンスから追加時の rowid を取得する (fts テーブルへのデータ追加時に利用する)
+    // レスポンスからデータ追加時の rowid を取得する (fts テーブルへのデータ追加時に利用する)
     const rowId = res.meta.last_row_id;
 
     // 2. Intl.Segmenter を利用して、受け取ったデータからトークンを抽出する
@@ -226,7 +228,7 @@ https://zenn.dev/cybozu_frontend/articles/explore-intl-segmenter
 1. 検索クエリが渡されているかのバリデーション
 2. 検索クエリにマッチしたドキュメントを fts と contents テーブルを利用して取得する
 
-ハンドラー部分の具体的なコードは次のようになりました。
+これらの処理を行う具体的なコードは、次のようになりました。
 
 ```ts:src/index.ts
 app.get("/api/fts/search", async (c) => {
@@ -238,7 +240,7 @@ app.get("/api/fts/search", async (c) => {
 
   const db = c.env.DB;
   // 2. 検索クエリにマッチしたドキュメントを fts と contents テーブルを利用して取得する
-  // ランクが高い順に最大 5件のデータを返す用意している
+  // ランクが高い順に最大 5件のデータを返すようにしている
   const { results } = await db
     .prepare(
       `SELECT contents.post_id as id, contents.title, contents.content FROM contents
@@ -262,11 +264,11 @@ app.get("/api/fts/search", async (c) => {
 # ローカルでの API サーバーの起動 (本番環境へのデプロイは wrangler deploy コマンドを使う)
 wrangler dev src/index.ts
 
-# データの登録
+# データの登録 (Basic 認証の token は適切なものをセットする)
 curl "http://localhost:8787/api/fts/insert" \
   -X POST \
   -H "Content-Type: application/json" \
-  -H "Authorization: Basic <token>" \
+  -H "Authorization: Basic ....." \
   -d '{"id" : "post-1" , "title" : "タイトル1", "content" : "ブログのコンテンツ1"}'
 
 # データの検索
@@ -341,7 +343,7 @@ app.put(
 
 ## まとめ
 
-今回の記事では、個人ブログの検索のための API を Cloudflare Workers と D1 を利用して実装する方法を紹介しました。実装の全体を確認したい方は、次のコードを参考にしてもらえればと思います。
+今回の記事では、個人ブログの全文検索 API を Cloudflare Workers と D1 を利用して実装する方法を紹介しました。実装の全体を確認したい方は、次のコードを参考にしてもらえればと思います。
 
 https://github.com/nissy-dev/blog/tree/7c18433e286e96dfede54e24f6ee00d033ffa02b/packages/fts
 
@@ -349,4 +351,4 @@ https://github.com/nissy-dev/blog/tree/7c18433e286e96dfede54e24f6ee00d033ffa02b/
 
 https://zenn.dev/laiso/articles/7a21b5bf14f10c
 
-ただ、上記の記事でも触れられているのですが、[Cloudflare からは英語を対象としたベクトル生成用の LLM しか提供されていません](https://developers.cloudflare.com/workers-ai/models/#text-embeddings)。その部分については OpenAI などの API を使うしかないようです。Cloudflare は、今回利用した D1 以外にも個人で色々試すには良い機能をたくさん提供してくれているので、日本語に対応した LLM も使えるようになることを期待しています。
+ただ、上記の記事でも触れられているのですが、[Cloudflare からは英語を対象としたベクトル生成用の LLM のみしか提供されていません](https://developers.cloudflare.com/workers-ai/models/#text-embeddings)。その部分については OpenAI などの API を使うしかないようです。Cloudflare は、今回利用した D1 以外にも個人で色々試すには良い機能をたくさん提供してくれているので、日本語に対応した LLM も使えるようになることを期待しています。
