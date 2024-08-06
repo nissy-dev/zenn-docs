@@ -275,6 +275,18 @@ curl "http://localhost:8787/api/fts/insert" \
 curl "http://localhost:8787/api/fts/search?q=keyword"
 ```
 
+## まとめ
+
+今回の記事では、個人ブログの全文検索 API を Cloudflare Workers と D1 を利用して実装する方法を紹介しました。実装の全体を確認したい方は、次のコードを参考にしてもらえればと思います。
+
+https://github.com/nissy-dev/blog/tree/7c18433e286e96dfede54e24f6ee00d033ffa02b/packages/fts
+
+今回は全文検索を実装しましたが、Cloudflare は[ベクトルデータベースも提供している](https://developers.cloudflare.com/vectorize/)ので、検索機能を実装する選択肢としてベクトル検索もありそうです。
+
+https://zenn.dev/laiso/articles/7a21b5bf14f10c
+
+ただ、上記の記事でも触れられているのですが、[Cloudflare からは英語を対象としたベクトル生成用の LLM のみしか提供されていません](https://developers.cloudflare.com/workers-ai/models/#text-embeddings)。その部分については OpenAI などの API を使うしかないようです。Cloudflare は、今回利用した D1 以外にも個人で色々試すには良い機能をたくさん提供してくれているので、日本語に対応した LLM も使えるようになることを期待しています。
+
 ## 追記: データ登録のエンドポイントでデータ更新もできるようにする
 
 このブログを最初に書いた時点では、登録したデータに変更があった場合は毎回 DB を作り直すことを想定していたのであまり考えていなかったのですが、実際のケースではデータの登録だけでなく更新もできるとよさそうです。
@@ -340,15 +352,3 @@ app.put(
 このとき contents テーブルの更新では、fts テーブルから参照されている id カラムを変更したくないため `ON CONFLICT` を利用する方法を採用しました。一方で、fts テーブルの更新では `ON CONFLICT` を利用する方法で更新することはできないため、`REPLACE` を利用する方法を採用しています。
 
 ここまで実装してみましたが、やはり transaction の仕組みは欲しいなという気持ちになりました。[D1 は batch statements として簡易的なトランザクションの仕組みは提供してくれている](https://developers.cloudflare.com/d1/build-with-d1/d1-client-api/#batch-statements)のですが、今回のようなロジックのあるようなトランザクションは現時点で実装することができません。
-
-## まとめ
-
-今回の記事では、個人ブログの全文検索 API を Cloudflare Workers と D1 を利用して実装する方法を紹介しました。実装の全体を確認したい方は、次のコードを参考にしてもらえればと思います。
-
-https://github.com/nissy-dev/blog/tree/7c18433e286e96dfede54e24f6ee00d033ffa02b/packages/fts
-
-今回は全文検索を実装しましたが、Cloudflare は[ベクトルデータベースも提供している](https://developers.cloudflare.com/vectorize/)ので、検索機能を実装する選択肢としてベクトル検索もありそうです。
-
-https://zenn.dev/laiso/articles/7a21b5bf14f10c
-
-ただ、上記の記事でも触れられているのですが、[Cloudflare からは英語を対象としたベクトル生成用の LLM のみしか提供されていません](https://developers.cloudflare.com/workers-ai/models/#text-embeddings)。その部分については OpenAI などの API を使うしかないようです。Cloudflare は、今回利用した D1 以外にも個人で色々試すには良い機能をたくさん提供してくれているので、日本語に対応した LLM も使えるようになることを期待しています。
