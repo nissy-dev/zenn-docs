@@ -261,10 +261,10 @@ export default function Layout({
 ```tsx:app/[locale]/blog/_components/client-component.tsx
 "use client";
 
-import { useTransition } from "./../../../i18n/client";
+import { useTranslation } from "./../../../i18n/client";
 
 export default function ClientComponent() {
-  const { t } = useTransition()
+  const { t } = useTranslation()
   return <div>{t('blog-home')}</div>
 }
 ```
@@ -307,7 +307,7 @@ export default async function BlogHome({ params }: { params: { locale: string } 
 - middleware の実装で楽をしたい
 - Server Components の文言のローカライゼーション用の関数 (getTranslation) は locale を引数に取るのが気になる
 
-これらの課題を解決するライブラリがあるのか調べたところ、[next-translate](https://github.com/aralroca/next-translate) や [next-intl](https://next-intl-docs.vercel.app/) がありそうです。どちらのライブラリについても、middleware の実装は提供されている関数を利用して数行で実装でき、文言のローカライゼーション用の関数についても useTransition のような関数を ClientComponents と Server Components のどちらでも呼べるようになっています。
+これらの課題を解決するライブラリがあるのか調べたところ、[next-translate](https://github.com/aralroca/next-translate) や [next-intl](https://next-intl-docs.vercel.app/) がありそうです。どちらのライブラリについても、middleware の実装は提供されている関数を利用して数行で実装でき、文言のローカライゼーション用の関数についても useTranslation のような関数を ClientComponents と Server Components のどちらでも呼べるようになっています。
 
 文言のローカライゼーション用の関数のインターフェイスをどうやって揃えるのかについて気になったので調べたところ、次の実装にあるようにビルド時に動的にコードを書き換えているようです。
 
