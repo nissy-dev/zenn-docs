@@ -310,3 +310,61 @@ https://github.com/aralroca/next-translate-plugin/blob/67e728a9d2881de3d4ccc15f4
 この実装方法では Webpack から Turbopack への移行の障害にもなってしまいそうなので、個人的にはライブラリを積極的に使いたくないな〜と思いました。
 
 ということで、結果的にはこの i18n 対応の大変さや開発サーバーでのページの読み込みの遅さなどが気になって、App Router への移行の実装をまだ main ブランチにはマージしていません。Next.js 側での i18n サポートの改善に期待しつつ、しばらくはライブラリを利用しないで実装するのが良さそうだと思います。
+
+---
+
+追記
+
+記事を書いてから気づいたのですが、次のライブラリはビルド時に動的なコード書き換えをしておらず、非常に薄くて使いやすいライブラリだなと感じています。
+
+https://github.com/QuiiBz/next-international
+
+## 追記：Server Components での locale のバケツリレーを回避する
+
+記事内の `getTranslation` 関数は locale を引数にとるので、この関数を利用するには locale を page.tsx から該当のコンポーネントへ渡す必要があります。個人ブログのような規模が小さいコードでは問題ないのですが、それ以外の場合では locale のバケツリレーがかなり大変になりそうです。
+
+この問題を回避する方法としては、まずは cookie や HTTP header を利用することを思いつきました。しかし、[Next.js では `cookies()` や `headers()` を Server Components で利用すると Dynamic Rendering になってしまう](https://nextjs.org/docs/app/building-your-application/rendering/server-components#switching-to-dynamic-rendering)ので、パフォーマンス的に良くありません。
+
+そこで、[next-international のコードを参考にし](https://github.com/QuiiBz/next-international/blob/a049386f43bf2c42a2b3ed9b8d3e82b42ff9eebe/packages/next-international/src/app/server/get-locale-cache.tsx)、[React の cache 関数](https://ja.react.dev/reference/react/cache)を利用することでこの問題を回避しました。実際のコードは次のようになります。
+
+```ts:i18n/server.ts
+import "server-only";
+
+import { cache } from "react";
+import { RESOURCES, type i18nKey, isSupportLocale } from "./resources";
+
+const getLocale = cache<() => { current: string | undefined }>(() => ({
+  current: undefined,
+}));
+
+export const setStaticParamsLocale = (value: string) => {
+  getLocale().current = value;
+};
+
+export const getTranslation = cache(async () => {
+  const currentLocale = getLocale().current;
+  if (!isSupportLocale(currentLocale)) {
+    throw new Error(`Unsupported locale: ${currentLocale}`);
+  }
+  const resource = await RESOURCES[currentLocale]();
+  return { t: (key: i18nKey) => resource[key] };
+});
+```
+
+ここで定義した `setStaticParamsLocale` を page.tsx の先頭で呼び出した後で、`getTranslation` が利用できるようになります。
+
+```tsx:app/[locale]/blog/pages.tsx
+import { SUPPORTED_LOCALES } from "./../../i18n/resources";
+import { getTransition } from "./../../i18n/server";
+
+export async function generateStaticParams() {
+  return SUPPORTED_LOCALES.map((locale) => ({ locale }));
+}
+
+export default async function BlogHome({ params }: { params: { locale: string } }) {
+  setStaticParamsLocale(params.locale)
+
+  const { t } = getTransition()
+  return <div>{t('blog-home')}</div>
+}
+```
