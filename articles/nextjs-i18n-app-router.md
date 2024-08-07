@@ -167,10 +167,16 @@ export function middleware(request: NextRequest) {
       new URL(`/${locale}/${pathname}`, request.url)
     );
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/((?!_next).*)"],
+  matcher: [
+    // Skip all internal paths (_next) and static files
+    // https://next-international.vercel.app/docs/app-setup#setup-middleware
+    "/((?!api|static|.*\\..*|_next|favicon.ico|robots.txt).*)",
+  ],
 };
 ```
 
@@ -282,14 +288,14 @@ export const getTranslation = (locale: Locale) => {
 
 ```tsx:app/[locale]/blog/pages.tsx
 import { SUPPORTED_LOCALES } from "./../../i18n/resources";
-import { getTransition } from "./../../i18n/server";
+import { getTranslation } from "./../../i18n/server";
 
 export async function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
 }
 
 export default async function BlogHome({ params }: { params: { locale: string } }) {
-  const { t } = getTransition(params.locale)
+  const { t } = getTranslation(params.locale)
   return <div>{t('blog-home')}</div>
 }
 ```
@@ -299,7 +305,7 @@ export default async function BlogHome({ params }: { params: { locale: string } 
 上記の手順で App Router でもライブラリを導入することなく i18n の機能を移行できました。一方で、やはり Page Router の場合の方が i18n を簡単に導入できたので、今回の対応では次のような感想を持ちました。
 
 - middleware の実装で楽をしたい
-- Server Components の文言のローカライゼーション用の関数 (getTransition) は locale を引数に取るのが気になる
+- Server Components の文言のローカライゼーション用の関数 (getTranslation) は locale を引数に取るのが気になる
 
 これらの課題を解決するライブラリがあるのか調べたところ、[next-translate](https://github.com/aralroca/next-translate) や [next-intl](https://next-intl-docs.vercel.app/) がありそうです。どちらのライブラリについても、middleware の実装は提供されている関数を利用して数行で実装でき、文言のローカライゼーション用の関数についても useTransition のような関数を ClientComponents と Server Components のどちらでも呼べるようになっています。
 
@@ -346,7 +352,7 @@ export const getTranslation = cache(async () => {
   if (!isSupportLocale(currentLocale)) {
     throw new Error(`Unsupported locale: ${currentLocale}`);
   }
-  const resource = await RESOURCES[currentLocale]();
+  const resource = RESOURCES[currentLocale];
   return { t: (key: i18nKey) => resource[key] };
 });
 ```
@@ -355,7 +361,7 @@ export const getTranslation = cache(async () => {
 
 ```tsx:app/[locale]/blog/pages.tsx
 import { SUPPORTED_LOCALES } from "./../../i18n/resources";
-import { getTransition } from "./../../i18n/server";
+import { getTranslation } from "./../../i18n/server";
 
 export async function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
@@ -364,7 +370,7 @@ export async function generateStaticParams() {
 export default async function BlogHome({ params }: { params: { locale: string } }) {
   setStaticParamsLocale(params.locale)
 
-  const { t } = getTransition()
+  const { t } = getTranslation()
   return <div>{t('blog-home')}</div>
 }
 ```
