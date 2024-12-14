@@ -32,7 +32,7 @@ _Tenbin は、shard 間の実行時間の差を最小化する_
 
 ## Tenbin の内部実装
 
-Tenbin は、前節で紹介した既存のツールの sharding の課題を解決するために、各 shard のテストの実行時間の差が最小になるようにテストを分割します。これは、数分割問題 (multiway number partitioning) と呼ばれる一般的な問題に帰着でき、NP 困難な問題ではあるのですが近似解を計算することができます。
+Tenbin は、前節で紹介した既存のツールの sharding の課題を解決するために、過去のテストの実行時間のデータを利用して、各 shard のテストの実行時間の差が最小になるようにテストを分割します。これは、数分割問題 (multiway number partitioning) と呼ばれる一般的な問題に帰着でき、NP 困難な問題ではあるのですが近似解を計算することができます。
 
 今回は近似解として平均的に良い解を導出できる差分法を用いて実装しました。差分法については、以下のようなアルゴリズムになります。
 
@@ -101,7 +101,7 @@ export default class TenbinSequencer extends Sequencer {
     return partitions[options.shardIndex - 1];
   }
 
-  // test の実行時間をファイルから読み込む
+  // 過去のテストの実行時間をファイルから読み込む
   private loadDurations(): Record<string, number> {
     const filePath = path.join(process.cwd(), REPORT_FILENAME);
     try {
@@ -232,7 +232,7 @@ function extractShardConfig(shard: string): ShardConfig {
     );
   }
 }
-// Playwright の JSON report の読み込み
+// 過去の JSON レポートの読み込み
 function loadDurations(reportFile: string): Record<string, number> {
   const filePath = path.join(process.cwd(), reportFile);
   try {
