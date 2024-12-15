@@ -3,7 +3,7 @@ title: "テストの sharding を効率化する Tenbin というツールを作
 emoji: "⚖️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["playwright", "jest", "vitest", "test"]
-published: false
+published: true
 publication_name: "cybozu_frontend"
 ---
 
